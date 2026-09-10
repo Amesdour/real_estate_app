@@ -27,7 +27,9 @@ export async function GET(req: NextRequest) {
       ...(city ? { city: { equals: city, mode: "insensitive" } } : {}),
       ...(type ? { type: type as any } : {}),
     },
-    include: { images: true, owner: { select: { id: true, email: true } } },
+    // Public, unauthenticated endpoint — never expose owner email here.
+    // Contact-the-owner should go through an authenticated route/inbox instead.
+    include: { images: true, owner: { select: { id: true } } },
     orderBy: { createdAt: "desc" },
   });
 

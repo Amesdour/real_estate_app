@@ -46,7 +46,20 @@ export async function POST(req: NextRequest) {
       if (!property) {
         throw new AuthError("Property not found", 404);
       }
-      if (property.status !== "AVAILABLE") {
+
+      // Atomic check-and-set: the WHERE clause re-checks status=AVAILABLE as part
+      // of the same UPDATE statement, so two concurrent requests can't both read
+      // "AVAILABLE" and both win. Only the first to reach the DB flips the row;
+      // the second gets updateResult.count === 0 and is rejected below. A plain
+      // read-then-write here (read status, then separately update it) is NOT
+      // atomic under Postgres's default Read Committed isolation and allows two
+      // buyers to double-book the same property.
+      const updateResult = await tx.property.updateMany({
+        where: { id: propertyId, status: "AVAILABLE" },
+        data: { status: "RESERVED" },
+      });
+
+      if (updateResult.count === 0) {
         throw new AuthError("This property is not available to reserve right now", 409);
       }
 
@@ -60,11 +73,6 @@ export async function POST(req: NextRequest) {
           holdExpiresAt,
           amountPaid: 0,
         },
-      });
-
-      await tx.property.update({
-        where: { id: propertyId },
-        data: { status: "RESERVED" },
       });
 
       return { reservation, property };
