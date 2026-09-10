@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #f7f4ee;
+  color: #16281c;
+}
+
+::selection {
+  background-color: #c3d3c8;
+}
