@@ -146,12 +146,10 @@ model Review {
   @@index([userId])
 }
 
-/**
- * A buyer's message thread with the PLATFORM (not with the listing's agent or
- * owner). By design, agents/owners are never a party to a conversation — the
- * platform is always the intermediary between a buyer and any listing. Only
- * the buyer who started it and SUPER_ADMIN users can read or reply to it.
- */
+// A buyer's message thread with the PLATFORM (not with the listing's agent or
+// owner). By design, agents/owners are never a party to a conversation — the
+// platform is always the intermediary between a buyer and any listing. Only
+// the buyer who started it and SUPER_ADMIN users can read or reply to it.
 model Conversation {
   id         String             @id @default(uuid())
   propertyId String?
