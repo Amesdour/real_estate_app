@@ -49,6 +49,9 @@ export default async function AdminPage() {
         <Link href="/admin/users" className="rounded-full border border-brand-200 px-5 py-2.5 text-sm text-brand-700 hover:bg-brand-50">
           Manage users
         </Link>
+        <Link href="/admin/reservations" className="rounded-full border border-brand-200 px-5 py-2.5 text-sm text-brand-700 hover:bg-brand-50">
+          Reservations
+        </Link>
         <Link href="/admin/messages" className="rounded-full border border-brand-200 px-5 py-2.5 text-sm text-brand-700 hover:bg-brand-50">
           Messages
         </Link>

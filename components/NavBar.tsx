@@ -4,7 +4,8 @@ import { LogoutButton } from "./LogoutButton";
 
 export async function NavBar() {
   const user = await getCurrentUser();
-  const canList = user && ["AGENT", "PROPERTY_OWNER", "SUPER_ADMIN"].includes(user.role);
+  const isAdmin = user?.role === "SUPER_ADMIN";
+  const canList = user && ["AGENT", "PROPERTY_OWNER"].includes(user.role);
 
   return (
     <header className="border-b border-brand-200/60">
@@ -13,7 +14,7 @@ export async function NavBar() {
           Terraço
         </Link>
         <nav className="flex items-center gap-6">
-          {user?.role === "SUPER_ADMIN" && (
+          {isAdmin && (
             <Link href="/admin" className="text-sm text-brand-700 hover:text-brand-900">
               Admin
             </Link>
@@ -25,12 +26,16 @@ export async function NavBar() {
           )}
           {user ? (
             <>
-              <Link href="/dashboard/messages" className="text-sm text-brand-700 hover:text-brand-900">
-                Messages
-              </Link>
-              <Link href="/dashboard" className="text-sm text-brand-700 hover:text-brand-900">
-                My reservations
-              </Link>
+              {!isAdmin && (
+                <>
+                  <Link href="/dashboard/messages" className="text-sm text-brand-700 hover:text-brand-900">
+                    Messages
+                  </Link>
+                  <Link href="/dashboard" className="text-sm text-brand-700 hover:text-brand-900">
+                    My reservations
+                  </Link>
+                </>
+              )}
               <LogoutButton />
             </>
           ) : (
