@@ -13,6 +13,11 @@ export async function NavBar() {
           Terraço
         </Link>
         <nav className="flex items-center gap-6">
+          {user?.role === "SUPER_ADMIN" && (
+            <Link href="/admin" className="text-sm text-brand-700 hover:text-brand-900">
+              Admin
+            </Link>
+          )}
           {canList && (
             <Link href="/list-property" className="text-sm text-brand-700 hover:text-brand-900">
               List a property

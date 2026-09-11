@@ -1,0 +1,129 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { formatDA } from "@/lib/currency";
+
+type AdminProperty = {
+  id: string;
+  slug: string;
+  title: string;
+  city: string;
+  status: string;
+  price: string;
+  owner: { email: string };
+  reservations: { id: string }[];
+};
+
+const STATUSES = ["DRAFT", "PENDING_APPROVAL", "AVAILABLE", "RESERVED", "SOLD", "RENTED"];
+
+export function AdminListingsTable() {
+  const [properties, setProperties] = useState<AdminProperty[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null);
+
+  async function load() {
+    const res = await fetch("/api/admin/properties");
+    const data = await res.json();
+    if (res.ok) setProperties(data.properties);
+  }
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  async function setStatus(id: string, status: string) {
+    setBusyId(id);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/properties/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Could not update");
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Something went wrong");
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  async function remove(id: string) {
+    if (!confirm("Delete this listing permanently?")) return;
+    setBusyId(id);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/properties/${id}`, { method: "DELETE" });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error ?? "Could not delete");
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Something went wrong");
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  if (!properties) return <p className="text-brand-700">Loading…</p>;
+
+  return (
+    <div>
+      {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
+      <div className="overflow-x-auto rounded-2xl border border-brand-200 bg-white">
+        <table className="w-full text-left text-sm">
+          <thead className="border-b border-brand-200 text-xs text-brand-700">
+            <tr>
+              <th className="p-3">Title</th>
+              <th className="p-3">Owner</th>
+              <th className="p-3">Price</th>
+              <th className="p-3">Status</th>
+              <th className="p-3">Reservations</th>
+              <th className="p-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {properties.map((p) => (
+              <tr key={p.id} className="border-b border-brand-100 last:border-0">
+                <td className="p-3">
+                  <Link href={`/properties/${p.slug}`} className="text-brand-900 hover:underline">
+                    {p.title}
+                  </Link>
+                  <p className="text-xs text-brand-700">{p.city}</p>
+                </td>
+                <td className="p-3 text-brand-700">{p.owner.email}</td>
+                <td className="p-3 text-brand-700">{formatDA(p.price)}</td>
+                <td className="p-3">
+                  <select
+                    value={p.status}
+                    disabled={busyId === p.id}
+                    onChange={(e) => setStatus(p.id, e.target.value)}
+                    className="rounded-lg border border-brand-200 px-2 py-1 text-xs"
+                  >
+                    {STATUSES.map((s) => (
+                      <option key={s} value={s}>
+                        {s.replace("_", " ")}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+                <td className="p-3 text-brand-700">{p.reservations.length}</td>
+                <td className="p-3">
+                  <button
+                    onClick={() => remove(p.id)}
+                    disabled={busyId === p.id}
+                    className="text-xs text-red-600 hover:underline disabled:opacity-50"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}

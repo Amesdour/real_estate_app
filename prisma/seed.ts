@@ -28,54 +28,65 @@ async function main() {
     },
   });
 
+  const admin = await prisma.user.upsert({
+    where: { email: "admin@example.com" },
+    update: {},
+    create: {
+      email: "admin@example.com",
+      passwordHash,
+      role: "SUPER_ADMIN",
+      isVerified: true,
+    },
+  });
+
   const properties = [
     {
-      title: "Sunlit 3-Bedroom Villa in Hydra",
+      title: "Villa ensoleillée 3 chambres à Hydra",
       description:
-        "A bright, modern villa five minutes from the coast, with an open-plan kitchen, a landscaped garden, and a private pool.",
+        "Une villa lumineuse et moderne à cinq minutes de la corniche, avec une cuisine ouverte, un jardin paysager et une piscine privée.",
       type: "VILLA" as const,
-      price: 285000,
-      reservationFee: 2500,
+      price: 38500000,
+      reservationFee: 150000,
       address: "12 Rue des Oliviers",
-      city: "Algiers",
-      country: "Algeria",
+      city: "Alger",
+      country: "Algérie",
       latitude: 36.7525,
       longitude: 3.042,
-      attributes: { bedrooms: 3, bathrooms: 2, areaSqm: 210, hasPool: true },
+      attributes: { chambres: 3, salles_de_bain: 2, surface_m2: 210, piscine: true },
       images: [
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
       ],
     },
     {
-      title: "Downtown 2-Bedroom Apartment",
+      title: "Appartement F3 rénové au centre-ville",
       description:
-        "Walkable to everything: cafes, transit, and parks. Recently renovated kitchen and bathroom, plenty of natural light.",
+        "À proximité de tout : cafés, transports et parcs. Cuisine et salle de bain récemment rénovées, très lumineux.",
       type: "APARTMENT" as const,
       price: 0,
-      reservationFee: 500,
+      reservationFee: 20000,
       address: "45 Boulevard Central",
       city: "M'Sila",
-      country: "Algeria",
+      country: "Algérie",
       latitude: 35.7058,
       longitude: 4.5415,
-      attributes: { bedrooms: 2, bathrooms: 1, areaSqm: 85, furnished: true, listingKind: "RENT", monthlyRent: 650 },
+      attributes: { chambres: 2, salles_de_bain: 1, surface_m2: 85, meuble: true, type_annonce: "LOCATION", loyer_mensuel_da: 45000 },
       images: [
         "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688",
       ],
     },
     {
-      title: "1-Hectare Agricultural Land Plot",
+      title: "Terrain agricole d'1 hectare",
       description:
-        "Flat, cleared land with road access and a registered title, suitable for agricultural or light development use.",
+        "Terrain plat et dégagé, accès routier, acte de propriété enregistré. Adapté à un usage agricole ou à un projet de construction légère.",
       type: "LAND" as const,
-      price: 42000,
-      reservationFee: 800,
+      price: 6200000,
+      reservationFee: 50000,
       address: "Route Nationale 8",
       city: "M'Sila",
-      country: "Algeria",
+      country: "Algérie",
       latitude: 35.72,
       longitude: 4.55,
-      attributes: { areaSqm: 10000, zoning: "agricultural" },
+      attributes: { surface_m2: 10000, zonage: "agricole" },
       images: [
         "https://images.unsplash.com/photo-1500382017468-9049fed747ef",
       ],
@@ -106,6 +117,7 @@ async function main() {
   console.log("Seeded:");
   console.log(`  agent:  ${agent.email} / password123`);
   console.log(`  buyer:  ${buyer.email} / password123`);
+  console.log(`  admin:  ${admin.email} / password123`);
   console.log(`  ${properties.length} properties`);
 }
 

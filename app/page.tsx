@@ -1,14 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { PropertyCard } from "@/components/PropertyCard";
+import { formatDA } from "@/lib/currency";
 
 export const dynamic = "force-dynamic";
-
-function formatPrice(price: unknown) {
-  const n = Number(price);
-  return n > 0
-    ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n)
-    : "Contact for rent";
-}
 
 export default async function HomePage() {
   const properties = await prisma.property.findMany({
@@ -46,7 +40,7 @@ export default async function HomePage() {
               city={p.city}
               country={p.country}
               type={p.type}
-              price={formatPrice(p.price)}
+              price={formatDA(p.price)}
               imageUrl={p.images.find((i) => i.isPrimary)?.url ?? p.images[0]?.url}
             />
           ))}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { formatDA } from "@/lib/currency";
 
 type Props = {
   propertyId: string;
@@ -146,7 +147,7 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
   return (
     <div className="rounded-2xl border border-brand-200 bg-white p-6">
       <p className="font-display text-lg text-brand-900">
-        Reservation fee: {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(reservationFee)}
+        Reservation fee: {formatDA(reservationFee)}
       </p>
       <p className="mt-1 text-sm text-brand-700">
         Placing a hold reserves this property for 15 minutes so no one else can take it while you confirm.

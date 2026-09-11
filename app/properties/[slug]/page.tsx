@@ -3,15 +3,9 @@ import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { ReservationPanel } from "@/components/ReservationPanel";
+import { formatDA } from "@/lib/currency";
 
 export const dynamic = "force-dynamic";
-
-function formatPrice(price: unknown) {
-  const n = Number(price);
-  return n > 0
-    ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n)
-    : "Contact for rent";
-}
 
 export default async function PropertyPage({ params }: { params: { slug: string } }) {
   const [property, user] = await Promise.all([
@@ -35,6 +29,16 @@ export default async function PropertyPage({ params }: { params: { slug: string 
             {primaryImage && <Image src={primaryImage} alt={property.title} fill className="object-cover" />}
           </div>
 
+          {property.images.length > 1 && (
+            <div className="mt-3 grid grid-cols-4 gap-3 sm:grid-cols-6">
+              {property.images.map((img) => (
+                <div key={img.id} className="relative aspect-square overflow-hidden rounded-lg bg-brand-100">
+                  <Image src={img.url} alt="" fill className="object-cover" />
+                </div>
+              ))}
+            </div>
+          )}
+
           <h1 className="mt-8 font-display text-3xl text-brand-900">{property.title}</h1>
           <p className="mt-1 text-brand-700">
             {property.address}, {property.city}, {property.country}
@@ -57,7 +61,7 @@ export default async function PropertyPage({ params }: { params: { slug: string 
 
         <div className="space-y-4">
           <div className="rounded-2xl border border-brand-200 bg-white p-6">
-            <p className="font-display text-2xl text-brand-900">{formatPrice(property.price)}</p>
+            <p className="font-display text-2xl text-brand-900">{formatDA(property.price)}</p>
             <p className="mt-1 text-sm text-brand-700 capitalize">{property.status.toLowerCase().replace("_", " ")}</p>
           </div>
           <ReservationPanel
