@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireUser, AuthError } from "@/lib/auth";
 import { reservationCreateSchema } from "@/lib/validation";
 import { expireStaleHolds, HOLD_DURATION_MINUTES } from "@/lib/reservations";
-import { createPaymentIntent } from "@/lib/payments";
+import { createHoldReference } from "@/lib/reservation-reference";
 
 /** The current user's reservations. */
 export async function GET() {
@@ -46,7 +46,6 @@ export async function POST(req: NextRequest) {
       if (!property) {
         throw new AuthError("Property not found", 404);
       }
-
       // Atomic check-and-set: the WHERE clause re-checks status=AVAILABLE as part
       // of the same UPDATE statement, so two concurrent requests can't both read
       // "AVAILABLE" and both win. Only the first to reach the DB flips the row;
@@ -78,21 +77,12 @@ export async function POST(req: NextRequest) {
       return { reservation, property };
     });
 
-    // Payment intent is created outside the DB transaction since it's a network call.
-    const intent = await createPaymentIntent(Number(result.property.reservationFee));
-
     const reservation = await prisma.reservation.update({
       where: { id: result.reservation.id },
-      data: { stripeIntentId: intent.intentId },
+      data: { holdReference: createHoldReference() },
     });
 
-    return NextResponse.json(
-      {
-        reservation,
-        payment: { demo: intent.demo, clientSecret: intent.clientSecret },
-      },
-      { status: 201 }
-    );
+    return NextResponse.json({ reservation }, { status: 201 });
   } catch (err) {
     if (err instanceof AuthError) {
       return NextResponse.json({ error: err.message }, { status: err.status });

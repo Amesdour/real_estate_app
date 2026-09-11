@@ -118,7 +118,7 @@ model Reservation {
   status         ReservationStatus @default(HOLD_PENDING_PAYMENT)
   holdExpiresAt  DateTime
   amountPaid     Decimal           @db.Decimal(10, 2)
-  stripeIntentId String?           @unique
+  holdReference  String?           @unique
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
 

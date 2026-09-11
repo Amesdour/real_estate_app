@@ -21,7 +21,6 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [reservation, setReservation] = useState<Reservation | null>(null);
-  const [demoPayment, setDemoPayment] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
 
   useEffect(() => {
@@ -47,7 +46,6 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Could not place a hold");
       setReservation(data.reservation);
-      setDemoPayment(data.payment?.demo ?? false);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     } finally {
@@ -124,12 +122,6 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
             ? `This hold expires in ${Math.floor(secondsLeft / 60)}:${String(secondsLeft % 60).padStart(2, "0")}.`
             : "This hold has expired."}
         </p>
-        {demoPayment && (
-          <p className="mt-3 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">
-            Demo mode: no Stripe key is configured, so this doesn't charge a card. Confirming below
-            just marks the reservation fee as paid for demonstration purposes.
-          </p>
-        )}
         {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
         <div className="mt-4 flex gap-3">
           <button
@@ -137,7 +129,7 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
             disabled={loading || secondsLeft === 0}
             className="rounded-full bg-brand-600 px-5 py-2 text-sm text-white hover:bg-brand-700 disabled:opacity-50"
           >
-            {demoPayment ? "Confirm (demo payment)" : "Confirm and pay"}
+            Confirm reservation
           </button>
           <button
             onClick={cancelReservation}

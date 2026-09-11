@@ -4,11 +4,11 @@ import { requireUser, AuthError } from "@/lib/auth";
 import { expireStaleHolds } from "@/lib/reservations";
 
 /**
- * Marks a hold as paid/confirmed. In demo mode (no live Stripe key) this just
- * flips the status — there's no real charge. With a real Stripe key, a production
- * build would confirm this only after verifying the PaymentIntent's status via a
- * webhook, not on the client's say-so; that webhook handler is not included here
- * (see README "What's stubbed").
+ * Marks a hold as confirmed. There's no payment processor wired in — this just
+ * records that the reservation fee is settled and moves the reservation to
+ * CONFIRMED. If a real charge is added later, this route should only flip to
+ * CONFIRMED after independently verifying the charge succeeded (e.g. via a
+ * payment provider's webhook), not on the client's say-so.
  */
 export async function POST(
   _req: Request,

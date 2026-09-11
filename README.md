@@ -14,9 +14,8 @@ does" flow from the original spec, built and working end to end.
 - Buyers can place a **15-minute hold** on an `AVAILABLE` property, which
   blocks other buyers from reserving it until the hold is confirmed,
   cancelled, or it expires and the property reopens automatically
-- A demo-mode payment step standing in for the reservation-fee charge (see
-  "What's stubbed" below — this is the one piece that is intentionally not a
-  real integration)
+- Confirming a hold records the reservation fee as settled — there is
+  **no payment processor wired in** (by request; see "What's stubbed")
 
 ## Stack
 
@@ -49,8 +48,6 @@ bcrypt password hashing.
    ```
    - `DATABASE_URL` — see step 2
    - `JWT_SECRET` — generate one: `openssl rand -base64 32`
-   - `STRIPE_SECRET_KEY` — optional, leave as the placeholder to stay in
-     demo mode (see below)
 
 4. **Run migrations and seed demo data**
    ```bash
@@ -74,14 +71,11 @@ Open http://localhost:3000.
 
 Said plainly, so "looks done" doesn't get mistaken for "is done":
 
-- **Payments are demo-mode by default.** With no `STRIPE_SECRET_KEY` set,
-  confirming a reservation just flips its status — no card is charged, and
-  the UI says so explicitly. Setting a real Stripe **test** secret key makes
-  `lib/payments.ts` create a real PaymentIntent, but the client-side
-  Stripe.js/Elements confirmation UI and a webhook handler that verifies the
-  charge before trusting a "confirmed" reservation are **not** built here —
-  a real payment integration should never let the client alone decide a
-  reservation is paid.
+- **No payment processor.** Confirming a hold just records the reservation
+  fee as settled — nothing is charged. If that changes later, wire a real
+  charge into `lib/reservation-reference.ts::createHoldReference` and only
+  flip a reservation to `CONFIRMED` after independently verifying the charge
+  succeeded (e.g. via a webhook), never on the client's say-so alone.
 - **Hold expiry** is enforced two ways: lazily (checked whenever a reservation
   or property is read) and via `npm run expire-holds`, a standalone script
   meant to run on a schedule (cron, or your host's scheduled-jobs feature)
@@ -109,12 +103,47 @@ Said plainly, so "looks done" doesn't get mistaken for "is done":
   including them. The Prisma schema underneath is shared-data-model-ready if
   you want to add either later.
 
+## Audit notes
+
+A pass over the app turned up gaps worth tracking explicitly rather than
+discovering them later.
+
+**Fixed:**
+- `next.config.js` allowed Next/Image to fetch and optimize images from
+  *any* host (`hostname: "**"`) — since that fetch happens server-side, an
+  unrestricted pattern is an SSRF vector via pasted image URLs. Narrowed to
+  an explicit allowlist (currently just the Unsplash host the seed data
+  uses). Add your real storage host here once uploads exist; don't widen it
+  back to `**`.
+- Registering with a `phone` that collides with an existing account (a race
+  the `findUnique` pre-check can miss under concurrent signups) used to throw
+  an unhandled Prisma error → a raw 500. `app/api/auth/register/route.ts` now
+  catches Prisma's unique-constraint error (`P2002`) and returns a clean 409.
+- Removed the Stripe branching entirely (`lib/payments.ts` →
+  `lib/reservation-reference.ts`) since it's not needed — less surface area,
+  no half-built payment code sitting around unused.
+
+**Still open** (not fixed yet — flag if you want any of these prioritized):
+- No rate limiting on `/api/auth/login` or `/register` (brute-force risk)
+- No listing search/filter UI, no pagination on the home page
+- No edit/delete for a property after it's listed
+- No admin screen to approve `PENDING_APPROVAL` listings (Prisma Studio only,
+  for now)
+- `Review` model exists in the schema with no API routes or UI behind it
+- No password reset, no email verification, no user profile page
+- No notifications (hold placed / expiring soon / confirmed)
+- No automated tests (unit, integration, or e2e)
+- Auth/role checks are repeated per-route rather than centralized in
+  middleware
+- No `env` validation at startup — a missing `JWT_SECRET` only fails the
+  first time something touches it
+
 ## Deployment
 
 Vercel is the path of least resistance for Next.js specifically. Push this
 to a git repo, import it in Vercel, and set the same environment variables
-(`DATABASE_URL`, `JWT_SECRET`, `STRIPE_SECRET_KEY`) in the project settings
-rather than committing them. Use a hosted Postgres (Neon/Supabase/Railway)
+(`DATABASE_URL`, `JWT_SECRET`) in the project settings rather than committing
+them. Use a hosted Postgres (Neon/Supabase/Railway)
 for the deployed `DATABASE_URL` — the docker-compose database is for local
 dev only.
 

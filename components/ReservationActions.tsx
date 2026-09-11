@@ -34,7 +34,7 @@ export function ReservationActions({ id, status }: { id: string; status: string 
           disabled={loading}
           className="rounded-full bg-brand-600 px-4 py-1.5 text-xs text-white hover:bg-brand-700 disabled:opacity-50"
         >
-          Confirm (demo payment)
+          Confirm reservation
         </button>
         <button
           onClick={() => act("cancel")}
