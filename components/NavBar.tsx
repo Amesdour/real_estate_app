@@ -25,6 +25,9 @@ export async function NavBar() {
           )}
           {user ? (
             <>
+              <Link href="/dashboard/messages" className="text-sm text-brand-700 hover:text-brand-900">
+                Messages
+              </Link>
               <Link href="/dashboard" className="text-sm text-brand-700 hover:text-brand-900">
                 My reservations
               </Link>

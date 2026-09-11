@@ -44,6 +44,11 @@ enum ReservationStatus {
   COMPLETED
 }
 
+enum ConversationStatus {
+  OPEN
+  CLOSED
+}
+
 model User {
   id           String        @id @default(uuid())
   email        String        @unique
@@ -54,6 +59,8 @@ model User {
   properties   Property[]    @relation("OwnerProperties")
   reservations Reservation[] @relation("BuyerReservations")
   reviews      Review[]
+  conversations Conversation[] @relation("BuyerConversations")
+  sentMessages  Message[]      @relation("SentMessages")
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 }
@@ -81,6 +88,7 @@ model Property {
   ownerId      String
   owner        User               @relation("OwnerProperties", fields: [ownerId], references: [id])
   reservations Reservation[]
+  conversations Conversation[]
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt
 
@@ -136,4 +144,38 @@ model Review {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+/**
+ * A buyer's message thread with the PLATFORM (not with the listing's agent or
+ * owner). By design, agents/owners are never a party to a conversation — the
+ * platform is always the intermediary between a buyer and any listing. Only
+ * the buyer who started it and SUPER_ADMIN users can read or reply to it.
+ */
+model Conversation {
+  id         String             @id @default(uuid())
+  propertyId String?
+  property   Property?          @relation(fields: [propertyId], references: [id])
+  buyerId    String
+  buyer      User               @relation("BuyerConversations", fields: [buyerId], references: [id])
+  status     ConversationStatus @default(OPEN)
+  messages   Message[]
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+
+  @@index([buyerId])
+  @@index([propertyId])
+  @@index([status])
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User         @relation("SentMessages", fields: [senderId], references: [id])
+  body           String
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId])
 }

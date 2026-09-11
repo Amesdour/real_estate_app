@@ -3,6 +3,7 @@ import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { ReservationPanel } from "@/components/ReservationPanel";
+import { ContactPlatformForm } from "@/components/ContactPlatformForm";
 import { formatDA } from "@/lib/currency";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +12,10 @@ export default async function PropertyPage({ params }: { params: { slug: string 
   const [property, user] = await Promise.all([
     prisma.property.findUnique({
       where: { slug: params.slug },
-      include: { images: true, owner: { select: { email: true } } },
+      // Never select owner.email here — it would render straight into the
+      // page's HTML for any visitor. All contact goes through the platform
+      // via ContactPlatformForm, not directly to the owner/agent.
+      include: { images: true },
     }),
     getCurrentUser(),
   ]);
@@ -55,8 +59,6 @@ export default async function PropertyPage({ params }: { params: { slug: string 
               ))}
             </dl>
           )}
-
-          <p className="mt-8 text-sm text-brand-700">Listed by {property.owner.email}</p>
         </div>
 
         <div className="space-y-4">
@@ -70,6 +72,7 @@ export default async function PropertyPage({ params }: { params: { slug: string 
             reservationFee={Number(property.reservationFee)}
             isLoggedIn={!!user}
           />
+          <ContactPlatformForm propertyId={property.id} isLoggedIn={!!user} />
         </div>
       </div>
     </div>
