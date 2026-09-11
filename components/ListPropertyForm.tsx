@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Spinner } from "./Spinner";
 
 type UploadedImage = { url: string; uploading?: boolean; name: string };
 
@@ -133,37 +134,200 @@ export function ListPropertyForm() {
 
   if (submitted) {
     return (
-      <div className="rounded-2xl border border-brand-200 bg-white p-6">
-        <p className="font-medium text-brand-900">Listing submitted</p>
-        <p className="mt-1 text-sm text-brand-700">
-          It's saved as <strong>pending approval</strong> — an admin needs to publish it before it shows
-          up in the public listings.
-        </p>
+      <div className="card flex items-start gap-3 p-6">
+        <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+          ✓
+        </div>
+        <div>
+          <p className="font-medium text-brand-900">Listing submitted</p>
+          <p className="mt-1 text-sm text-brand-700">
+            It's saved as <strong>pending approval</strong> — an admin needs to publish it before it shows
+            up in the public listings.
+          </p>
+        </div>
       </div>
     );
   }
 
-  const field = "mt-1 w-full rounded-lg border border-brand-200 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500";
-  const label = "block text-sm text-brand-700";
+  const uploading = images.some((i) => i.uploading);
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className={label}>Title</label>
-        <input required className={field} value={form.title} onChange={(e) => update("title", e.target.value)} />
-      </div>
-      <div>
-        <label className={label}>Description</label>
-        <textarea required rows={4} className={field} value={form.description} onChange={(e) => update("description", e.target.value)} />
+    <form onSubmit={handleSubmit} className="card space-y-6 p-6">
+      <div className="form-section">
+        <p className="form-section-title">Basics</p>
+        <div>
+          <label className="field-label">Title</label>
+          <input required className="field" value={form.title} onChange={(e) => update("title", e.target.value)} />
+        </div>
+        <div>
+          <label className="field-label">Description</label>
+          <textarea
+            required
+            rows={4}
+            className="field"
+            value={form.description}
+            onChange={(e) => update("description", e.target.value)}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="field-label">Type</label>
+            <select className="field" value={form.type} onChange={(e) => update("type", e.target.value)}>
+              <option value="APARTMENT">Apartment</option>
+              <option value="HOUSE">House</option>
+              <option value="VILLA">Villa</option>
+              <option value="LAND">Land</option>
+              <option value="COMMERCIAL">Commercial</option>
+            </select>
+          </div>
+          <div>
+            <label className="field-label">Sale or rent</label>
+            <select
+              className="field"
+              value={form.listingKind}
+              onChange={(e) => update("listingKind", e.target.value)}
+            >
+              <option value="SALE">For sale</option>
+              <option value="RENT">For rent</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <div>
-        <label className={label}>Photos</label>
-        <p className="mt-1 text-xs text-brand-700/70">
-          Take a new photo or choose from your camera roll / files — this opens your device's normal
-          picker on both phone and desktop.
+      <div className="form-section">
+        <p className="form-section-title">Details</p>
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <label className="field-label">Bedrooms</label>
+            <input
+              type="number"
+              min="0"
+              className="field"
+              value={form.bedrooms}
+              onChange={(e) => update("bedrooms", e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="field-label">Bathrooms</label>
+            <input
+              type="number"
+              min="0"
+              className="field"
+              value={form.bathrooms}
+              onChange={(e) => update("bathrooms", e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="field-label">Area (m²)</label>
+            <input
+              type="number"
+              min="0"
+              className="field"
+              value={form.areaSqm}
+              onChange={(e) => update("areaSqm", e.target.value)}
+            />
+          </div>
+        </div>
+        <div>
+          <label className="field-label">Amenities</label>
+          <div className="mt-1.5 flex flex-wrap gap-2">
+            {Object.entries(AMENITY_LABELS).map(([value, amenityLabel]) => (
+              <label
+                key={value}
+                className={`pill cursor-pointer ${amenities.includes(value) ? "pill-active" : "pill-inactive"}`}
+              >
+                <input
+                  type="checkbox"
+                  className="hidden"
+                  checked={amenities.includes(value)}
+                  onChange={() => toggleAmenity(value)}
+                />
+                {amenityLabel}
+              </label>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="form-section">
+        <p className="form-section-title">Pricing</p>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="field-label">Price in DA (0 if for rent)</label>
+            <input
+              required
+              type="number"
+              min="0"
+              className="field"
+              value={form.price}
+              onChange={(e) => update("price", e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="field-label">Reservation fee in DA</label>
+            <input
+              required
+              type="number"
+              min="0"
+              className="field"
+              value={form.reservationFee}
+              onChange={(e) => update("reservationFee", e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="form-section">
+        <p className="form-section-title">Location</p>
+        <div>
+          <label className="field-label">Address</label>
+          <input required className="field" value={form.address} onChange={(e) => update("address", e.target.value)} />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="field-label">City</label>
+            <input required className="field" value={form.city} onChange={(e) => update("city", e.target.value)} />
+          </div>
+          <div>
+            <label className="field-label">Country</label>
+            <input required className="field" value={form.country} onChange={(e) => update("country", e.target.value)} />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="field-label">Latitude</label>
+            <input
+              required
+              type="text"
+              inputMode="decimal"
+              placeholder="e.g. 36.7525"
+              className="field"
+              value={form.latitude}
+              onChange={(e) => update("latitude", e.target.value.replace(",", "."))}
+            />
+          </div>
+          <div>
+            <label className="field-label">Longitude</label>
+            <input
+              required
+              type="text"
+              inputMode="decimal"
+              placeholder="e.g. 3.042"
+              className="field"
+              value={form.longitude}
+              onChange={(e) => update("longitude", e.target.value.replace(",", "."))}
+            />
+          </div>
+        </div>
+        <p className="text-xs text-brand-700/70">
+          Tip: right-click the spot on Google Maps and copy the two numbers it shows — the first is
+          latitude, the second is longitude.
         </p>
-        <label className="mt-2 flex cursor-pointer items-center justify-center rounded-lg border border-dashed border-brand-300 px-3 py-6 text-sm text-brand-700 hover:bg-brand-50">
+      </div>
+
+      <div className="form-section">
+        <p className="form-section-title">Photos</p>
+        <label className="flex cursor-pointer items-center justify-center rounded-xl border border-dashed border-brand-300 px-3 py-6 text-sm text-brand-700 transition-colors hover:border-brand-500 hover:bg-brand-50">
           <span>Tap to add photos</span>
           <input
             type="file"
@@ -176,11 +340,12 @@ export function ListPropertyForm() {
         </label>
 
         {images.length > 0 && (
-          <div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-4">
+          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
             {images.map((img) => (
               <div key={img.url || img.name} className="relative aspect-square overflow-hidden rounded-lg bg-brand-100">
                 {img.uploading ? (
-                  <div className="flex h-full w-full items-center justify-center text-xs text-brand-700">
+                  <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 text-xs text-brand-700">
+                    <Spinner className="h-4 w-4 text-brand-500" />
                     Uploading…
                   </div>
                 ) : (
@@ -190,7 +355,8 @@ export function ListPropertyForm() {
                     <button
                       type="button"
                       onClick={() => removeImage(img.url)}
-                      className="absolute right-1 top-1 rounded-full bg-black/60 px-1.5 py-0.5 text-xs text-white"
+                      aria-label="Remove photo"
+                      className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white transition-colors hover:bg-black/80"
                     >
                       ×
                     </button>
@@ -202,119 +368,16 @@ export function ListPropertyForm() {
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className={label}>Type</label>
-          <select className={field} value={form.type} onChange={(e) => update("type", e.target.value)}>
-            <option value="APARTMENT">Apartment</option>
-            <option value="HOUSE">House</option>
-            <option value="VILLA">Villa</option>
-            <option value="LAND">Land</option>
-            <option value="COMMERCIAL">Commercial</option>
-          </select>
+      {error && (
+        <div className="flex items-start gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+          <span aria-hidden="true">⚠</span>
+          <span>{error}</span>
         </div>
-        <div>
-          <label className={label}>Sale or rent</label>
-          <select className={field} value={form.listingKind} onChange={(e) => update("listingKind", e.target.value)}>
-            <option value="SALE">For sale</option>
-            <option value="RENT">For rent</option>
-          </select>
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <div>
-          <label className={label}>Bedrooms</label>
-          <input type="number" min="0" className={field} value={form.bedrooms} onChange={(e) => update("bedrooms", e.target.value)} />
-        </div>
-        <div>
-          <label className={label}>Bathrooms</label>
-          <input type="number" min="0" className={field} value={form.bathrooms} onChange={(e) => update("bathrooms", e.target.value)} />
-        </div>
-        <div>
-          <label className={label}>Area (m²)</label>
-          <input type="number" min="0" className={field} value={form.areaSqm} onChange={(e) => update("areaSqm", e.target.value)} />
-        </div>
-      </div>
-      <div>
-        <label className={label}>Amenities</label>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {Object.entries(AMENITY_LABELS).map(([value, amenityLabel]) => (
-            <label
-              key={value}
-              className={`cursor-pointer rounded-full border px-3 py-1 text-xs ${
-                amenities.includes(value)
-                  ? "border-brand-600 bg-brand-600 text-white"
-                  : "border-brand-200 text-brand-700"
-              }`}
-            >
-              <input
-                type="checkbox"
-                className="hidden"
-                checked={amenities.includes(value)}
-                onChange={() => toggleAmenity(value)}
-              />
-              {amenityLabel}
-            </label>
-          ))}
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className={label}>Price in DA (0 if for rent)</label>
-          <input required type="number" min="0" className={field} value={form.price} onChange={(e) => update("price", e.target.value)} />
-        </div>
-        <div>
-          <label className={label}>Reservation fee in DA</label>
-          <input required type="number" min="0" className={field} value={form.reservationFee} onChange={(e) => update("reservationFee", e.target.value)} />
-        </div>
-      </div>
-      <div>
-        <label className={label}>Address</label>
-        <input required className={field} value={form.address} onChange={(e) => update("address", e.target.value)} />
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className={label}>City</label>
-          <input required className={field} value={form.city} onChange={(e) => update("city", e.target.value)} />
-        </div>
-        <div>
-          <label className={label}>Country</label>
-          <input required className={field} value={form.country} onChange={(e) => update("country", e.target.value)} />
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className={label}>Latitude</label>
-          <input
-            required
-            type="text"
-            inputMode="decimal"
-            placeholder="e.g. 36.7525"
-            className={field}
-            value={form.latitude}
-            onChange={(e) => update("latitude", e.target.value.replace(",", "."))}
-          />
-        </div>
-        <div>
-          <label className={label}>Longitude</label>
-          <input
-            required
-            type="text"
-            inputMode="decimal"
-            placeholder="e.g. 3.042"
-            className={field}
-            value={form.longitude}
-            onChange={(e) => update("longitude", e.target.value.replace(",", "."))}
-          />
-        </div>
-      </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      <button
-        type="submit"
-        disabled={loading || images.some((i) => i.uploading)}
-        className="rounded-full bg-brand-600 px-5 py-2.5 text-sm text-white hover:bg-brand-700 disabled:opacity-50"
-      >
-        Submit listing
+      )}
+
+      <button type="submit" disabled={loading || uploading} className="btn-primary w-full sm:w-auto">
+        {loading && <Spinner />}
+        {loading ? "Submitting…" : "Submit listing"}
       </button>
     </form>
   );

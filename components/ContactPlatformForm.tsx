@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Spinner } from "./Spinner";
 
 /**
  * Sends the buyer's message to the PLATFORM, not to the property's agent or
@@ -16,7 +17,7 @@ export function ContactPlatformForm({ propertyId, isLoggedIn }: { propertyId: st
 
   if (!isLoggedIn) {
     return (
-      <div className="rounded-2xl border border-brand-200 bg-white p-6">
+      <div className="card p-6">
         <p className="text-sm text-brand-700">
           <a href="/login" className="text-brand-900 underline">
             Sign in
@@ -49,7 +50,7 @@ export function ContactPlatformForm({ propertyId, isLoggedIn }: { propertyId: st
   }
 
   return (
-    <form onSubmit={submit} className="rounded-2xl border border-brand-200 bg-white p-6">
+    <form onSubmit={submit} className="card p-6">
       <p className="font-display text-base text-brand-900">Ask the Terraço team</p>
       <p className="mt-1 text-xs text-brand-700">
         Questions about a listing go through our team, not directly to the agent or owner.
@@ -57,17 +58,14 @@ export function ContactPlatformForm({ propertyId, isLoggedIn }: { propertyId: st
       <textarea
         required
         rows={3}
-        className="mt-3 w-full rounded-lg border border-brand-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+        className="field mt-3"
         placeholder="Is this property still available? Can I schedule a visit?"
         value={body}
         onChange={(e) => setBody(e.target.value)}
       />
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
-      <button
-        type="submit"
-        disabled={loading}
-        className="mt-3 rounded-full bg-brand-600 px-5 py-2 text-sm text-white hover:bg-brand-700 disabled:opacity-50"
-      >
+      {error && <p className="field-error mt-2">{error}</p>}
+      <button type="submit" disabled={loading} className="btn-primary mt-3">
+        {loading && <Spinner />}
         Send message
       </button>
     </form>

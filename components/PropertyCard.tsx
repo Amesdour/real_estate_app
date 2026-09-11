@@ -23,10 +23,7 @@ const typeLabels: Record<string, string> = {
 
 export function PropertyCard({ slug, title, city, country, price, type, listingKind, bedrooms, imageUrl }: Props) {
   return (
-    <Link
-      href={`/properties/${slug}`}
-      className="group block overflow-hidden rounded-2xl border border-brand-200/60 bg-white transition-shadow hover:shadow-lg hover:shadow-brand-900/5"
-    >
+    <Link href={`/properties/${slug}`} className="card card-interactive group block overflow-hidden">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-brand-100">
         {imageUrl && (
           <Image
@@ -36,22 +33,22 @@ export function PropertyCard({ slug, title, city, country, price, type, listingK
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         )}
-        <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs text-brand-700">
+        <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-brand-700 backdrop-blur-sm">
           {typeLabels[type] ?? type}
         </span>
         {listingKind && (
-          <span className="absolute right-3 top-3 rounded-full bg-brand-900/80 px-3 py-1 text-xs text-white">
+          <span className="absolute right-3 top-3 rounded-full bg-brand-900/85 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
             {listingKind === "RENT" ? "For rent" : "For sale"}
           </span>
         )}
       </div>
       <div className="p-4">
-        <h3 className="font-display text-lg text-brand-900">{title}</h3>
+        <h3 className="truncate font-display text-lg text-brand-900">{title}</h3>
         <p className="mt-1 text-sm text-brand-700">
           {city}, {country}
           {typeof bedrooms === "number" && ` · ${bedrooms} bd`}
         </p>
-        <p className="mt-2 text-base text-brand-900">{price}</p>
+        <p className="mt-2 font-display text-lg text-brand-900">{price}</p>
       </div>
     </Link>
   );

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatDA } from "@/lib/currency";
+import { Spinner } from "./Spinner";
 
 type Props = {
   propertyId: string;
@@ -92,7 +93,7 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
 
   if (!isLoggedIn) {
     return (
-      <div className="rounded-2xl border border-brand-200 bg-white p-6">
+      <div className="card p-6">
         <p className="text-brand-700">
           <a href="/login" className="text-brand-900 underline">
             Sign in
@@ -105,7 +106,7 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
 
   if (reservation?.status === "CONFIRMED") {
     return (
-      <div className="rounded-2xl border border-brand-200 bg-white p-6">
+      <div className="card p-6">
         <p className="font-medium text-brand-900">Reservation confirmed</p>
         <p className="mt-1 text-sm text-brand-700">
           The property is held for you. An agent will follow up to arrange next steps.
@@ -116,27 +117,20 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
 
   if (reservation?.status === "HOLD_PENDING_PAYMENT") {
     return (
-      <div className="rounded-2xl border border-brand-200 bg-white p-6">
+      <div className="card p-6">
         <p className="font-medium text-brand-900">Hold placed</p>
         <p className="mt-1 text-sm text-brand-700">
           {secondsLeft !== null && secondsLeft > 0
             ? `This hold expires in ${Math.floor(secondsLeft / 60)}:${String(secondsLeft % 60).padStart(2, "0")}.`
             : "This hold has expired."}
         </p>
-        {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+        {error && <p className="field-error mt-3">{error}</p>}
         <div className="mt-4 flex gap-3">
-          <button
-            onClick={confirmReservation}
-            disabled={loading || secondsLeft === 0}
-            className="rounded-full bg-brand-600 px-5 py-2 text-sm text-white hover:bg-brand-700 disabled:opacity-50"
-          >
+          <button onClick={confirmReservation} disabled={loading || secondsLeft === 0} className="btn-primary">
+            {loading && <Spinner />}
             Confirm reservation
           </button>
-          <button
-            onClick={cancelReservation}
-            disabled={loading}
-            className="rounded-full border border-brand-200 px-5 py-2 text-sm text-brand-700 hover:bg-brand-50 disabled:opacity-50"
-          >
+          <button onClick={cancelReservation} disabled={loading} className="btn-secondary">
             Cancel hold
           </button>
         </div>
@@ -145,19 +139,20 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
   }
 
   return (
-    <div className="rounded-2xl border border-brand-200 bg-white p-6">
+    <div className="card p-6">
       <p className="font-display text-lg text-brand-900">
         Reservation fee: {formatDA(reservationFee)}
       </p>
       <p className="mt-1 text-sm text-brand-700">
         Placing a hold reserves this property for 15 minutes so no one else can take it while you confirm.
       </p>
-      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+      {error && <p className="field-error mt-3">{error}</p>}
       <button
         onClick={placeHold}
         disabled={loading || propertyStatus !== "AVAILABLE"}
-        className="mt-4 w-full rounded-full bg-brand-600 px-5 py-2.5 text-sm text-white hover:bg-brand-700 disabled:opacity-50 sm:w-auto"
+        className="btn-primary mt-4 w-full sm:w-auto"
       >
+        {loading && <Spinner />}
         {propertyStatus === "AVAILABLE" ? "Place a 15-minute hold" : "Currently unavailable"}
       </button>
     </div>
