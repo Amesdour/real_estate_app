@@ -111,13 +111,18 @@ export function AdminListingsTable() {
                 </td>
                 <td className="p-3 text-brand-700">{p.reservations.length}</td>
                 <td className="p-3">
-                  <button
-                    onClick={() => remove(p.id)}
-                    disabled={busyId === p.id}
-                    className="text-xs text-red-600 hover:underline disabled:opacity-50"
-                  >
-                    Delete
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <Link href={`/admin/listings/${p.id}/edit`} className="text-xs text-brand-700 hover:underline">
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => remove(p.id)}
+                      disabled={busyId === p.id}
+                      className="text-xs text-red-600 hover:underline disabled:opacity-50"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

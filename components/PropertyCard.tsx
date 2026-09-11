@@ -8,6 +8,8 @@ type Props = {
   country: string;
   price: string;
   type: string;
+  listingKind?: string;
+  bedrooms?: number | null;
   imageUrl?: string;
 };
 
@@ -19,7 +21,7 @@ const typeLabels: Record<string, string> = {
   VILLA: "Villa",
 };
 
-export function PropertyCard({ slug, title, city, country, price, type, imageUrl }: Props) {
+export function PropertyCard({ slug, title, city, country, price, type, listingKind, bedrooms, imageUrl }: Props) {
   return (
     <Link
       href={`/properties/${slug}`}
@@ -37,11 +39,17 @@ export function PropertyCard({ slug, title, city, country, price, type, imageUrl
         <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs text-brand-700">
           {typeLabels[type] ?? type}
         </span>
+        {listingKind && (
+          <span className="absolute right-3 top-3 rounded-full bg-brand-900/80 px-3 py-1 text-xs text-white">
+            {listingKind === "RENT" ? "For rent" : "For sale"}
+          </span>
+        )}
       </div>
       <div className="p-4">
         <h3 className="font-display text-lg text-brand-900">{title}</h3>
         <p className="mt-1 text-sm text-brand-700">
           {city}, {country}
+          {typeof bedrooms === "number" && ` · ${bedrooms} bd`}
         </p>
         <p className="mt-2 text-base text-brand-900">{price}</p>
       </div>

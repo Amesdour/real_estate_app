@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 type UploadedImage = { url: string; uploading?: boolean; name: string };
@@ -18,31 +18,54 @@ const AMENITY_LABELS: Record<string, string> = {
   INTERNET: "Internet",
 };
 
-export function ListPropertyForm() {
+const STATUSES = ["DRAFT", "PENDING_APPROVAL", "AVAILABLE", "RESERVED", "SOLD", "RENTED", "EXPIRED"];
+
+export function AdminEditListingForm({ propertyId }: { propertyId: string }) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [images, setImages] = useState<UploadedImage[]>([]);
   const [amenities, setAmenities] = useState<string[]>([]);
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    type: "APARTMENT",
-    listingKind: "SALE",
-    price: "",
-    reservationFee: "",
-    bedrooms: "",
-    bathrooms: "",
-    areaSqm: "",
-    address: "",
-    city: "",
-    country: "Algeria",
-    latitude: "",
-    longitude: "",
-  });
+  const [form, setForm] = useState<Record<string, string>>({});
 
-  function update<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
+  useEffect(() => {
+    async function load() {
+      const res = await fetch(`/api/admin/properties/${propertyId}`);
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Could not load listing");
+        setLoading(false);
+        return;
+      }
+      const p = data.property;
+      setForm({
+        title: p.title,
+        description: p.description,
+        type: p.type,
+        listingKind: p.listingKind,
+        status: p.status,
+        price: String(p.price),
+        reservationFee: String(p.reservationFee),
+        bedrooms: p.bedrooms ?? "",
+        bathrooms: p.bathrooms ?? "",
+        areaSqm: p.areaSqm ?? "",
+        address: p.address,
+        city: p.city,
+        country: p.country,
+        latitude: String(p.latitude),
+        longitude: String(p.longitude),
+        expiresAt: p.expiresAt ? p.expiresAt.slice(0, 10) : "",
+      });
+      setAmenities(p.amenities ?? []);
+      setImages(p.images.map((i: { url: string }) => ({ url: i.url, name: i.url })));
+      setLoading(false);
+    }
+    load();
+  }, [propertyId]);
+
+  function update(key: string, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
   }
 
@@ -52,14 +75,10 @@ export function ListPropertyForm() {
 
   async function handleFilesSelected(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
-    e.target.value = ""; // allow re-selecting the same file later
+    e.target.value = "";
     if (files.length === 0) return;
 
-    const placeholders: UploadedImage[] = files.map((f) => ({
-      url: "",
-      uploading: true,
-      name: f.name,
-    }));
+    const placeholders: UploadedImage[] = files.map((f) => ({ url: "", uploading: true, name: f.name }));
     setImages((prev) => [...prev, ...placeholders]);
 
     for (const file of files) {
@@ -70,9 +89,7 @@ export function ListPropertyForm() {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error ?? "Upload failed");
         setImages((prev) =>
-          prev.map((img) =>
-            img.name === file.name && img.uploading ? { url: data.url, name: file.name } : img
-          )
+          prev.map((img) => (img.name === file.name && img.uploading ? { url: data.url, name: file.name } : img))
         );
       } catch (err) {
         setImages((prev) => prev.filter((img) => !(img.name === file.name && img.uploading)));
@@ -87,17 +104,19 @@ export function ListPropertyForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
     setError(null);
+    setSaved(false);
     try {
-      const res = await fetch("/api/properties", {
-        method: "POST",
+      const res = await fetch(`/api/admin/properties/${propertyId}`, {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: form.title,
           description: form.description,
           type: form.type,
           listingKind: form.listingKind,
+          status: form.status,
           price: Number(form.price),
           reservationFee: Number(form.reservationFee),
           bedrooms: form.bedrooms ? Number(form.bedrooms) : null,
@@ -109,38 +128,46 @@ export function ListPropertyForm() {
           country: form.country,
           latitude: Number(form.latitude),
           longitude: Number(form.longitude),
-          attributes: {},
+          expiresAt: form.expiresAt ? new Date(form.expiresAt).toISOString() : null,
           images: images.filter((i) => !i.uploading).map((i) => i.url),
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Could not create listing");
-      setSubmitted(true);
+      if (!res.ok) throw new Error(data.error ?? "Could not save");
+      setSaved(true);
       router.refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   }
 
-  if (submitted) {
-    return (
-      <div className="rounded-2xl border border-brand-200 bg-white p-6">
-        <p className="font-medium text-brand-900">Listing submitted</p>
-        <p className="mt-1 text-sm text-brand-700">
-          It's saved as <strong>pending approval</strong> — an admin needs to publish it before it shows
-          up in the public listings.
-        </p>
-      </div>
-    );
-  }
+  if (loading) return <p className="text-brand-700">Loading…</p>;
+  if (error && !form.title) return <p className="text-red-600">{error}</p>;
 
   const field = "mt-1 w-full rounded-lg border border-brand-200 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500";
   const label = "block text-sm text-brand-700";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className={label}>Status</label>
+          <select className={field} value={form.status} onChange={(e) => update("status", e.target.value)}>
+            {STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {s.replace("_", " ")}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className={label}>Listing expires on</label>
+          <input type="date" className={field} value={form.expiresAt} onChange={(e) => update("expiresAt", e.target.value)} />
+        </div>
+      </div>
+
       <div>
         <label className={label}>Title</label>
         <input required className={field} value={form.title} onChange={(e) => update("title", e.target.value)} />
@@ -152,30 +179,16 @@ export function ListPropertyForm() {
 
       <div>
         <label className={label}>Photos</label>
-        <p className="mt-1 text-xs text-brand-700/70">
-          Take a new photo or choose from your camera roll / files — this opens your device's normal
-          picker on both phone and desktop.
-        </p>
         <label className="mt-2 flex cursor-pointer items-center justify-center rounded-lg border border-dashed border-brand-300 px-3 py-6 text-sm text-brand-700 hover:bg-brand-50">
           <span>Tap to add photos</span>
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            capture="environment"
-            className="hidden"
-            onChange={handleFilesSelected}
-          />
+          <input type="file" accept="image/*" multiple className="hidden" onChange={handleFilesSelected} />
         </label>
-
         {images.length > 0 && (
           <div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-4">
             {images.map((img) => (
               <div key={img.url || img.name} className="relative aspect-square overflow-hidden rounded-lg bg-brand-100">
                 {img.uploading ? (
-                  <div className="flex h-full w-full items-center justify-center text-xs text-brand-700">
-                    Uploading…
-                  </div>
+                  <div className="flex h-full w-full items-center justify-center text-xs text-brand-700">Uploading…</div>
                 ) : (
                   <>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -214,6 +227,7 @@ export function ListPropertyForm() {
           </select>
         </div>
       </div>
+
       <div className="grid grid-cols-3 gap-4">
         <div>
           <label className={label}>Bedrooms</label>
@@ -228,6 +242,7 @@ export function ListPropertyForm() {
           <input type="number" min="0" className={field} value={form.areaSqm} onChange={(e) => update("areaSqm", e.target.value)} />
         </div>
       </div>
+
       <div>
         <label className={label}>Amenities</label>
         <div className="mt-2 flex flex-wrap gap-2">
@@ -235,22 +250,16 @@ export function ListPropertyForm() {
             <label
               key={value}
               className={`cursor-pointer rounded-full border px-3 py-1 text-xs ${
-                amenities.includes(value)
-                  ? "border-brand-600 bg-brand-600 text-white"
-                  : "border-brand-200 text-brand-700"
+                amenities.includes(value) ? "border-brand-600 bg-brand-600 text-white" : "border-brand-200 text-brand-700"
               }`}
             >
-              <input
-                type="checkbox"
-                className="hidden"
-                checked={amenities.includes(value)}
-                onChange={() => toggleAmenity(value)}
-              />
+              <input type="checkbox" className="hidden" checked={amenities.includes(value)} onChange={() => toggleAmenity(value)} />
               {amenityLabel}
             </label>
           ))}
         </div>
       </div>
+
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className={label}>Price in DA (0 if for rent)</label>
@@ -261,6 +270,7 @@ export function ListPropertyForm() {
           <input required type="number" min="0" className={field} value={form.reservationFee} onChange={(e) => update("reservationFee", e.target.value)} />
         </div>
       </div>
+
       <div>
         <label className={label}>Address</label>
         <input required className={field} value={form.address} onChange={(e) => update("address", e.target.value)} />
@@ -285,13 +295,15 @@ export function ListPropertyForm() {
           <input required type="number" step="any" className={field} value={form.longitude} onChange={(e) => update("longitude", e.target.value)} />
         </div>
       </div>
+
       {error && <p className="text-sm text-red-600">{error}</p>}
+      {saved && <p className="text-sm text-brand-700">Saved.</p>}
       <button
         type="submit"
-        disabled={loading || images.some((i) => i.uploading)}
+        disabled={saving || images.some((i) => i.uploading)}
         className="rounded-full bg-brand-600 px-5 py-2.5 text-sm text-white hover:bg-brand-700 disabled:opacity-50"
       >
-        Submit listing
+        Save changes
       </button>
     </form>
   );

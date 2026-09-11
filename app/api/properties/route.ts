@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireRole, AuthError } from "@/lib/auth";
 import { propertyCreateSchema } from "@/lib/validation";
+import { expireStaleListings, defaultExpiryDate } from "@/lib/listings";
 
 function slugify(title: string) {
   return (
@@ -15,17 +16,28 @@ function slugify(title: string) {
   );
 }
 
-/** Public: list available properties, with optional city/type filters. */
+/** Public: list available properties, with filters for type, listing kind, city, price, bedrooms, and amenities. */
 export async function GET(req: NextRequest) {
+  await expireStaleListings();
+
   const { searchParams } = new URL(req.url);
   const city = searchParams.get("city") ?? undefined;
   const type = searchParams.get("type") ?? undefined;
+  const listingKind = searchParams.get("listingKind") ?? undefined;
+  const minBedrooms = searchParams.get("minBedrooms");
+  const maxPrice = searchParams.get("maxPrice");
+  const amenitiesParam = searchParams.get("amenities");
+  const amenities = amenitiesParam ? amenitiesParam.split(",").filter(Boolean) : [];
 
   const properties = await prisma.property.findMany({
     where: {
       status: "AVAILABLE",
       ...(city ? { city: { equals: city, mode: "insensitive" } } : {}),
       ...(type ? { type: type as any } : {}),
+      ...(listingKind ? { listingKind: listingKind as any } : {}),
+      ...(minBedrooms ? { bedrooms: { gte: Number(minBedrooms) } } : {}),
+      ...(maxPrice ? { price: { lte: Number(maxPrice) } } : {}),
+      ...(amenities.length > 0 ? { amenities: { hasEvery: amenities as any } } : {}),
     },
     // Public, unauthenticated endpoint — never expose owner email here.
     // Contact-the-owner should go through an authenticated route/inbox instead.
@@ -36,7 +48,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ properties });
 }
 
-/** Agents, property owners, and admins can list a new property. Starts as DRAFT. */
+/** Agents, property owners, and admins can list a new property. Starts as PENDING_APPROVAL. */
 export async function POST(req: NextRequest) {
   try {
     const user = await requireRole("AGENT", "PROPERTY_OWNER", "SUPER_ADMIN");
@@ -58,6 +70,7 @@ export async function POST(req: NextRequest) {
         slug: slugify(data.title),
         ownerId: user.id,
         status: "PENDING_APPROVAL",
+        expiresAt: defaultExpiryDate(),
         images: { create: images.map((url, i) => ({ url, isPrimary: i === 0 })) },
       },
       include: { images: true },
@@ -72,3 +85,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
 }
+

@@ -34,6 +34,25 @@ enum PropertyListingStatus {
   RESERVED
   SOLD
   RENTED
+  EXPIRED
+}
+
+enum ListingKind {
+  SALE
+  RENT
+}
+
+enum Amenity {
+  POOL
+  GARAGE
+  GARDEN
+  AIR_CONDITIONING
+  ELEVATOR
+  FURNISHED
+  BALCONY
+  SECURITY
+  PARKING
+  INTERNET
 }
 
 enum ReservationStatus {
@@ -71,6 +90,7 @@ model Property {
   slug           String                @unique
   description    String
   type           PropertyType
+  listingKind    ListingKind           @default(SALE)
   status         PropertyListingStatus @default(DRAFT)
   price          Decimal               @db.Decimal(12, 2)
   reservationFee Decimal               @db.Decimal(10, 2)
@@ -80,8 +100,19 @@ model Property {
   latitude       Float
   longitude      Float
 
-  // Dynamic attributes: bedrooms, bathrooms, land area, zoning, etc.
-  attributes Json
+  // Structured, filterable fields promoted out of the old catch-all JSON blob:
+  bedrooms  Int?
+  bathrooms Int?
+  areaSqm   Int?
+  amenities Amenity[] @default([])
+
+  // Anything else that doesn't need to be filterable still goes here (zoning,
+  // floor number, year built, whatever a given listing needs).
+  attributes Json @default("{}")
+
+  // Listings auto-expire after a while (classifieds convention) rather than
+  // sitting live forever. Set at creation; an admin can extend/renew it.
+  expiresAt DateTime?
 
   images       PropertyImage[]
   documents    PropertyDocument[]
@@ -94,7 +125,9 @@ model Property {
 
   @@index([latitude, longitude])
   @@index([type, status])
+  @@index([listingKind])
   @@index([ownerId])
+  @@index([expiresAt])
 }
 
 model PropertyImage {

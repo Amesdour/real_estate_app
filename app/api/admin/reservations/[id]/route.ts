@@ -72,8 +72,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
         { status: 409 }
       );
     }
-    const attributes = (reservation.property.attributes ?? {}) as Record<string, unknown>;
-    const isRental = attributes.listingKind === "RENT" || attributes.type_annonce === "LOCATION";
+    const isRental = reservation.property.listingKind === "RENT";
 
     const [updated] = await prisma.$transaction([
       prisma.reservation.update({ where: { id: reservation.id }, data: { status: "COMPLETED" } }),

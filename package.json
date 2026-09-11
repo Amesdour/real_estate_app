@@ -11,7 +11,8 @@
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
     "seed": "tsx prisma/seed.ts",
-    "expire-holds": "tsx scripts/expire-holds.ts"
+    "expire-holds": "tsx scripts/expire-holds.ts",
+    "expire-listings": "tsx scripts/expire-listings.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.20.0",

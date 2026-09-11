@@ -49,8 +49,33 @@ export default async function PropertyPage({ params }: { params: { slug: string 
           </p>
           <p className="mt-6 whitespace-pre-line text-brand-900/90">{property.description}</p>
 
+          <div className="mt-3 flex flex-wrap gap-2 text-xs">
+            <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700">
+              {property.listingKind === "RENT" ? "For rent" : "For sale"}
+            </span>
+            {property.bedrooms != null && (
+              <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700">{property.bedrooms} bedrooms</span>
+            )}
+            {property.bathrooms != null && (
+              <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700">{property.bathrooms} bathrooms</span>
+            )}
+            {property.areaSqm != null && (
+              <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700">{property.areaSqm} m²</span>
+            )}
+          </div>
+
+          {property.amenities.length > 0 && (
+            <div className="mt-6 flex flex-wrap gap-2 border-t border-brand-200 pt-6">
+              {property.amenities.map((a) => (
+                <span key={a} className="rounded-full border border-brand-200 px-3 py-1 text-xs text-brand-700">
+                  {a.replace("_", " ").toLowerCase()}
+                </span>
+              ))}
+            </div>
+          )}
+
           {Object.keys(attributes).length > 0 && (
-            <dl className="mt-8 grid grid-cols-2 gap-4 border-t border-brand-200 pt-6 sm:grid-cols-3">
+            <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-brand-200 pt-6 sm:grid-cols-3">
               {Object.entries(attributes).map(([key, value]) => (
                 <div key={key}>
                   <dt className="text-xs text-brand-700">{key}</dt>
