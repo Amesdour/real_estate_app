@@ -133,7 +133,14 @@ export function AdminEditListingForm({ propertyId }: { propertyId: string }) {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Could not save");
+      if (!res.ok) {
+        const fieldErrors = data.details?.fieldErrors as Record<string, string[]> | undefined;
+        if (fieldErrors) {
+          const first = Object.entries(fieldErrors).find(([, msgs]) => msgs?.length);
+          if (first) throw new Error(`${first[0]}: ${first[1][0]}`);
+        }
+        throw new Error(data.error ?? "Could not save");
+      }
       setSaved(true);
       router.refresh();
     } catch (e) {
