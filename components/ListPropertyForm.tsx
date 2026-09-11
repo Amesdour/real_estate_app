@@ -278,11 +278,27 @@ export function ListPropertyForm() {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className={label}>Latitude</label>
-          <input required type="number" step="any" className={field} value={form.latitude} onChange={(e) => update("latitude", e.target.value)} />
+          <input
+            required
+            type="text"
+            inputMode="decimal"
+            placeholder="e.g. 36.7525"
+            className={field}
+            value={form.latitude}
+            onChange={(e) => update("latitude", e.target.value.replace(",", "."))}
+          />
         </div>
         <div>
           <label className={label}>Longitude</label>
-          <input required type="number" step="any" className={field} value={form.longitude} onChange={(e) => update("longitude", e.target.value)} />
+          <input
+            required
+            type="text"
+            inputMode="decimal"
+            placeholder="e.g. 3.042"
+            className={field}
+            value={form.longitude}
+            onChange={(e) => update("longitude", e.target.value.replace(",", "."))}
+          />
         </div>
       </div>
       {error && <p className="text-sm text-red-600">{error}</p>}
