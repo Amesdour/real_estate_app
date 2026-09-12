@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Spinner } from "./Spinner";
 
 export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const router = useRouter();
@@ -35,46 +36,49 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm text-brand-700">Email</label>
+        <label className="field-label">Email</label>
         <input
           type="email"
           required
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 w-full rounded-lg border border-brand-200 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+          className="field"
         />
       </div>
       <div>
-        <label className="block text-sm text-brand-700">Password</label>
+        <label className="field-label">Password</label>
         <input
           type="password"
           required
+          autoComplete={mode === "register" ? "new-password" : "current-password"}
           minLength={mode === "register" ? 8 : undefined}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mt-1 w-full rounded-lg border border-brand-200 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+          className="field"
         />
+        {mode === "register" && (
+          <p className="mt-1 text-xs text-brand-700/70">At least 8 characters.</p>
+        )}
       </div>
       {mode === "register" && (
         <div>
-          <label className="block text-sm text-brand-700">I am a...</label>
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-brand-200 px-3 py-2 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
-          >
+          <label className="field-label">I am a...</label>
+          <select value={role} onChange={(e) => setRole(e.target.value)} className="field">
             <option value="BUYER_TENANT">Buyer / tenant</option>
             <option value="PROPERTY_OWNER">Property owner</option>
             <option value="AGENT">Agent</option>
           </select>
         </div>
       )}
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full rounded-full bg-brand-600 px-5 py-2.5 text-sm text-white hover:bg-brand-700 disabled:opacity-50"
-      >
+      {error && (
+        <div className="flex items-start gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+          <span aria-hidden="true">⚠</span>
+          <span>{error}</span>
+        </div>
+      )}
+      <button type="submit" disabled={loading} className="btn-primary w-full">
+        {loading && <Spinner />}
         {mode === "login" ? "Sign in" : "Create account"}
       </button>
     </form>

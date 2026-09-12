@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Spinner } from "./Spinner";
 
 type Message = {
   id: string;
@@ -89,7 +90,7 @@ export function ConversationThread({
   }
 
   return (
-    <div className="flex flex-col rounded-2xl border border-brand-200 bg-white">
+    <div className="card flex flex-col">
       <div className="flex items-center justify-between border-b border-brand-200/60 px-5 py-4">
         <div>
           {conversation.property ? (
@@ -141,16 +142,13 @@ export function ConversationThread({
 
       <form onSubmit={send} className="flex items-center gap-2 border-t border-brand-200/60 px-4 py-3">
         <input
-          className="flex-1 rounded-full border border-brand-200 px-4 py-2 text-sm outline-none focus:border-brand-500"
+          className="field flex-1 !rounded-full !py-2"
           placeholder="Write a message…"
           value={body}
           onChange={(e) => setBody(e.target.value)}
         />
-        <button
-          type="submit"
-          disabled={sending || !body.trim()}
-          className="rounded-full bg-brand-600 px-4 py-2 text-sm text-white hover:bg-brand-700 disabled:opacity-50"
-        >
+        <button type="submit" disabled={sending || !body.trim()} className="btn-primary !px-4 !py-2">
+          {sending && <Spinner className="h-3.5 w-3.5" />}
           Send
         </button>
       </form>
