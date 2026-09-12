@@ -74,7 +74,7 @@ export function AdminListingsTable() {
     <div>
       {error && <p className="field-error mb-4">{error}</p>}
       <div className="card overflow-x-auto">
-        <table className="w-full text-left text-sm">
+        <table className="w-full text-start text-sm">
           <thead className="border-b border-brand-200 text-xs text-brand-700">
             <tr>
               <th className="p-3">Title</th>

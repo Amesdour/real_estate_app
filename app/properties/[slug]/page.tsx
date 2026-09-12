@@ -87,7 +87,7 @@ export default async function PropertyPage({ params }: { params: { slug: string 
         </div>
 
         <div className="space-y-4">
-          <div className="rounded-2xl border border-brand-200 bg-white p-6">
+          <div className="card p-6">
             <p className="font-display text-2xl text-brand-900">{formatDA(property.price)}</p>
             <p className="mt-1 text-sm text-brand-700 capitalize">{property.status.toLowerCase().replace("_", " ")}</p>
           </div>

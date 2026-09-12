@@ -1,7 +1,9 @@
+import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { PropertyCard } from "@/components/PropertyCard";
 import { FilterBar } from "@/components/FilterBar";
 import { formatDA } from "@/lib/currency";
+import { DEFAULT_LOCALE, LOCALE_COOKIE, getDictionary, isLocale } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +18,9 @@ type SearchParams = {
 
 export default async function HomePage({ searchParams }: { searchParams: SearchParams }) {
   const amenities = searchParams.amenities?.split(",").filter(Boolean) ?? [];
+  const cookieLocale = cookies().get(LOCALE_COOKIE)?.value;
+  const locale = isLocale(cookieLocale) ? cookieLocale : DEFAULT_LOCALE;
+  const t = getDictionary(locale).home;
 
   const properties = await prisma.property.findMany({
     where: {
@@ -36,15 +41,8 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       <div className="max-w-xl">
-        <h1 className="font-display text-4xl leading-tight text-brand-900">
-          A place is only yours once you've held it.
-        </h1>
-        <p className="mt-4 text-brand-700">
-          Browse listings, then put down a small reservation fee to hold a property
-          for {" "}
-          <strong className="font-medium text-brand-900">15 minutes</strong> while
-          you finish the paperwork.
-        </p>
+        <h1 className="font-display text-4xl leading-tight text-brand-900 dark:text-brand-50">{t.title}</h1>
+        <p className="mt-4 text-brand-700 dark:text-brand-200">{t.subtitle}</p>
       </div>
 
       <div className="mt-8">
@@ -52,10 +50,12 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
       </div>
 
       {properties.length === 0 ? (
-        <div className="mt-8 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700">
-          {hasFilters
-            ? "No listings match those filters."
-            : <>No properties are listed yet. Run <code className="rounded bg-brand-100 px-1.5 py-0.5">npm run seed</code> to add some demo listings, or sign in as an agent to list one.</>}
+        <div className="mt-8 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700 dark:border-brand-700 dark:text-brand-200">
+          {hasFilters ? (
+            t.empty
+          ) : (
+            <>No properties are listed yet. Run <code className="rounded bg-brand-100 px-1.5 py-0.5 dark:bg-brand-800">npm run seed</code> to add some demo listings, or sign in as an agent to list one.</>
+          )}
         </div>
       ) : (
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

@@ -2,15 +2,16 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { useLocale } from "./LocaleProvider";
 
-const TYPES = [
-  { value: "", label: "Any type" },
-  { value: "APARTMENT", label: "Apartment" },
-  { value: "HOUSE", label: "House" },
-  { value: "VILLA", label: "Villa" },
-  { value: "LAND", label: "Land" },
-  { value: "COMMERCIAL", label: "Commercial" },
-];
+const TYPE_VALUES = ["", "APARTMENT", "HOUSE", "VILLA", "LAND", "COMMERCIAL"] as const;
+const TYPE_ENGLISH_LABELS: Record<string, string> = {
+  APARTMENT: "Apartment",
+  HOUSE: "House",
+  VILLA: "Villa",
+  LAND: "Land",
+  COMMERCIAL: "Commercial",
+};
 
 const AMENITY_LABELS: Record<string, string> = {
   POOL: "Pool",
@@ -28,6 +29,8 @@ const AMENITY_LABELS: Record<string, string> = {
 export function FilterBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { dict } = useLocale();
+  const t = dict.filters;
 
   const activeCount = Array.from(searchParams.keys()).length;
   const [open, setOpen] = useState(activeCount > 0);
@@ -72,14 +75,14 @@ export function FilterBar() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center justify-between px-4 py-3.5 text-left"
+        className="flex w-full items-center justify-between px-4 py-3.5 text-start"
       >
-        <span className="flex items-center gap-2 text-sm font-medium text-brand-900">
-          Filters
+        <span className="flex items-center gap-2 text-sm font-medium text-brand-900 dark:text-brand-50">
+          {t.title}
           {activeCount > 0 && <span className="pill pill-active !px-2 !py-0.5">{activeCount}</span>}
         </span>
         <svg
-          className={`h-4 w-4 text-brand-700 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          className={`h-4 w-4 text-brand-700 transition-transform duration-200 dark:text-brand-200 ${open ? "rotate-180" : ""}`}
           viewBox="0 0 20 20"
           fill="none"
         >
@@ -88,33 +91,33 @@ export function FilterBar() {
       </button>
 
       {open && (
-        <form onSubmit={applyFilters} className="border-t border-brand-200/60 p-4 pt-4">
+        <form onSubmit={applyFilters} className="border-t border-brand-200/60 p-4 pt-4 dark:border-brand-800">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            <input placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} className="field" />
+            <input placeholder={t.city} value={city} onChange={(e) => setCity(e.target.value)} className="field" />
             <select value={listingKind} onChange={(e) => setListingKind(e.target.value)} className="field">
-              <option value="">Sale or rent</option>
-              <option value="SALE">For sale</option>
-              <option value="RENT">For rent</option>
+              <option value="">{t.saleOrRent}</option>
+              <option value="SALE">{t.forSale}</option>
+              <option value="RENT">{t.forRent}</option>
             </select>
             <select value={type} onChange={(e) => setType(e.target.value)} className="field">
-              {TYPES.map((t) => (
-                <option key={t.value} value={t.value}>
-                  {t.label}
+              {TYPE_VALUES.map((v) => (
+                <option key={v} value={v}>
+                  {v === "" ? t.anyType : TYPE_ENGLISH_LABELS[v]}
                 </option>
               ))}
             </select>
             <select value={minBedrooms} onChange={(e) => setMinBedrooms(e.target.value)} className="field">
-              <option value="">Any bedrooms</option>
+              <option value="">{t.anyBedrooms}</option>
               {[1, 2, 3, 4, 5].map((n) => (
                 <option key={n} value={n}>
-                  {n}+ bedrooms
+                  {n}+ {t.bedroomsPlus}
                 </option>
               ))}
             </select>
             <input
               type="number"
               min="0"
-              placeholder="Max price (DA)"
+              placeholder={t.maxPrice}
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
               className="field"
@@ -140,11 +143,11 @@ export function FilterBar() {
 
           <div className="mt-4 flex gap-3">
             <button type="submit" className="btn-primary">
-              Apply filters
+              {t.apply}
             </button>
             {activeCount > 0 && (
               <button type="button" onClick={clearFilters} className="btn-ghost">
-                Clear all
+                {t.clear}
               </button>
             )}
           </div>

@@ -50,7 +50,7 @@ export default async function DashboardPage() {
       ) : (
         <ul className="mt-8 space-y-4">
           {reservations.map((r) => (
-            <li key={r.id} className="rounded-2xl border border-brand-200 bg-white p-5">
+            <li key={r.id} className="card p-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <Link href={`/properties/${r.property.slug}`} className="font-display text-lg text-brand-900 hover:underline">

@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import { cookies } from "next/headers";
+import { DEFAULT_LOCALE, LOCALE_COOKIE, getDictionary, isLocale } from "@/lib/i18n";
 
 type Props = {
   slug: string;
@@ -22,9 +24,13 @@ const typeLabels: Record<string, string> = {
 };
 
 export function PropertyCard({ slug, title, city, country, price, type, listingKind, bedrooms, imageUrl }: Props) {
+  const cookieLocale = cookies().get(LOCALE_COOKIE)?.value;
+  const locale = isLocale(cookieLocale) ? cookieLocale : DEFAULT_LOCALE;
+  const t = getDictionary(locale).property;
+
   return (
     <Link href={`/properties/${slug}`} className="card card-interactive group block overflow-hidden">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-brand-100">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-brand-100 dark:bg-brand-800">
         {imageUrl && (
           <Image
             src={imageUrl}
@@ -33,22 +39,25 @@ export function PropertyCard({ slug, title, city, country, price, type, listingK
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         )}
-        <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-brand-700 backdrop-blur-sm">
+        {/* start-3/end-3 (logical) instead of left-3/right-3 so these badges
+            swap sides automatically under dir="rtl" instead of both sitting
+            on the visual left in Arabic. */}
+        <span className="absolute start-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-brand-700 backdrop-blur-sm">
           {typeLabels[type] ?? type}
         </span>
         {listingKind && (
-          <span className="absolute right-3 top-3 rounded-full bg-brand-900/85 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-            {listingKind === "RENT" ? "For rent" : "For sale"}
+          <span className="absolute end-3 top-3 rounded-full bg-brand-900/85 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+            {listingKind === "RENT" ? t.forRent : t.forSale}
           </span>
         )}
       </div>
       <div className="p-4">
-        <h3 className="truncate font-display text-lg text-brand-900">{title}</h3>
-        <p className="mt-1 text-sm text-brand-700">
+        <h3 className="truncate font-display text-lg text-brand-900 dark:text-brand-50">{title}</h3>
+        <p className="mt-1 text-sm text-brand-700 dark:text-brand-200">
           {city}, {country}
-          {typeof bedrooms === "number" && ` · ${bedrooms} bd`}
+          {typeof bedrooms === "number" && ` · ${bedrooms} ${t.bedroomsShort}`}
         </p>
-        <p className="mt-2 font-display text-lg text-brand-900">{price}</p>
+        <p className="mt-2 font-display text-lg text-brand-900 dark:text-brand-50">{price}</p>
       </div>
     </Link>
   );

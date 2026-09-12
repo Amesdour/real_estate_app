@@ -33,7 +33,7 @@ export default async function MyMessagesPage() {
             <li key={c.id}>
               <Link
                 href={`/dashboard/messages/${c.id}`}
-                className="block rounded-2xl border border-brand-200 bg-white p-5 hover:shadow-md hover:shadow-brand-900/5"
+                className="card card-interactive block p-5"
               >
                 <div className="flex items-center justify-between">
                   <p className="font-display text-base text-brand-900">

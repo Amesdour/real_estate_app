@@ -7,10 +7,20 @@
 body {
   background-color: #f7f4ee;
   color: #16281c;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.dark body {
+  background-color: #0d1811;
+  color: #e3eae5;
 }
 
 ::selection {
   background-color: #c3d3c8;
+}
+
+.dark ::selection {
+  background-color: #294a34;
 }
 
 @layer components {
@@ -20,19 +30,21 @@ body {
   .field {
     @apply w-full rounded-xl border border-brand-200 bg-white px-3.5 py-2.5 text-sm text-brand-900
            placeholder:text-brand-700/40 transition-colors duration-150
-           focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/15;
+           focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/15
+           dark:border-brand-700 dark:bg-brand-900 dark:text-brand-50 dark:placeholder:text-brand-200/30
+           dark:focus:border-brand-500 dark:focus:ring-brand-500/25;
   }
   .field-label {
-    @apply mb-1.5 block text-xs font-medium tracking-wide text-brand-700;
+    @apply mb-1.5 block text-xs font-medium tracking-wide text-brand-700 dark:text-brand-200;
   }
   .field-error {
     @apply mt-1 text-xs text-red-600;
   }
   .form-section {
-    @apply space-y-4 border-t border-brand-200/60 pt-6 first:border-0 first:pt-0;
+    @apply space-y-4 border-t border-brand-200/60 pt-6 first:border-0 first:pt-0 dark:border-brand-800;
   }
   .form-section-title {
-    @apply font-display text-base text-brand-900;
+    @apply font-display text-base text-brand-900 dark:text-brand-50;
   }
 
   .btn-primary {
@@ -44,19 +56,21 @@ body {
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 rounded-full border border-brand-200 bg-white
            px-5 py-2.5 text-sm font-medium text-brand-700 transition-all duration-150
-           hover:bg-brand-50 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+           hover:bg-brand-50 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50
+           dark:border-brand-700 dark:bg-brand-900 dark:text-brand-200 dark:hover:bg-brand-800;
   }
   .btn-ghost {
-    @apply text-sm text-brand-700 underline decoration-brand-200 underline-offset-4 transition-colors hover:text-brand-900;
+    @apply text-sm text-brand-700 underline decoration-brand-200 underline-offset-4 transition-colors
+           hover:text-brand-900 dark:text-brand-200 dark:decoration-brand-700 dark:hover:text-brand-50;
   }
 
   /* One elevation scale used everywhere: flat by default, a soft lift on
      hover for anything clickable, nothing heavier than that (modals aside). */
   .card {
-    @apply rounded-2xl border border-brand-200 bg-white;
+    @apply rounded-2xl border border-brand-200 bg-white dark:border-brand-800 dark:bg-brand-900;
   }
   .card-interactive {
-    @apply transition-shadow duration-200 hover:shadow-lg hover:shadow-brand-900/[0.06];
+    @apply transition-shadow duration-200 hover:shadow-lg hover:shadow-brand-900/[0.06] dark:hover:shadow-black/20;
   }
 
   .pill {
@@ -66,6 +80,7 @@ body {
     @apply border-brand-600 bg-brand-600 text-white;
   }
   .pill-inactive {
-    @apply border border-brand-200 text-brand-700 transition-colors hover:border-brand-500;
+    @apply border border-brand-200 text-brand-700 transition-colors hover:border-brand-500
+           dark:border-brand-700 dark:text-brand-200 dark:hover:border-brand-500;
   }
 }

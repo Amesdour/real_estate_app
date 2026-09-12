@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Spinner } from "./Spinner";
+import { useLocale } from "./LocaleProvider";
 
 export function AuthForm({ mode }: { mode: "login" | "register" }) {
   const router = useRouter();
+  const { dict } = useLocale();
+  const t = dict.auth;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("BUYER_TENANT");
@@ -37,7 +40,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="field-label">Email</label>
+        <label className="field-label">{t.email}</label>
         <input
           type="email"
           required
@@ -48,7 +51,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         />
       </div>
       <div>
-        <label className="field-label">Password</label>
+        <label className="field-label">{t.password}</label>
         <input
           type="password"
           required
@@ -59,28 +62,28 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           className="field"
         />
         {mode === "register" && (
-          <p className="mt-1 text-xs text-brand-700/70">At least 8 characters.</p>
+          <p className="mt-1 text-xs text-brand-700/70 dark:text-brand-200/60">{t.passwordHint}</p>
         )}
       </div>
       {mode === "register" && (
         <div>
-          <label className="field-label">I am a...</label>
+          <label className="field-label">{t.role}</label>
           <select value={role} onChange={(e) => setRole(e.target.value)} className="field">
-            <option value="BUYER_TENANT">Buyer / tenant</option>
-            <option value="PROPERTY_OWNER">Property owner</option>
-            <option value="AGENT">Agent</option>
+            <option value="BUYER_TENANT">{t.buyer}</option>
+            <option value="PROPERTY_OWNER">{t.owner}</option>
+            <option value="AGENT">{t.agent}</option>
           </select>
         </div>
       )}
       {error && (
-        <div className="flex items-start gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="flex items-start gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-950/40 dark:text-red-300">
           <span aria-hidden="true">⚠</span>
           <span>{error}</span>
         </div>
       )}
       <button type="submit" disabled={loading} className="btn-primary w-full">
         {loading && <Spinner />}
-        {mode === "login" ? "Sign in" : "Create account"}
+        {mode === "login" ? t.signIn : t.createAccount}
       </button>
     </form>
   );
