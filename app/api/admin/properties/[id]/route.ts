@@ -14,6 +14,29 @@ const statusSchema = z.object({
   ]),
 });
 
+/** Loads a single listing's full data for the admin edit form. */
+export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+  try {
+    await requireRole("SUPER_ADMIN");
+
+    const property = await prisma.property.findUnique({
+      where: { id: params.id },
+      include: { images: true },
+    });
+    if (!property) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ property });
+  } catch (err) {
+    if (err instanceof AuthError) {
+      return NextResponse.json({ error: err.message }, { status: err.status });
+    }
+    console.error(err);
+    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+  }
+}
+
 /** Approve, reject (send back to DRAFT), or otherwise change a listing's status. */
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   try {

@@ -34,7 +34,12 @@ export function AdminEditListingForm({ propertyId }: { propertyId: string }) {
   useEffect(() => {
     async function load() {
       const res = await fetch(`/api/admin/properties/${propertyId}`);
-      const data = await res.json();
+      const data = await res.json().catch(() => null);
+      if (!data) {
+        setError("Server error — please try again in a moment");
+        setLoading(false);
+        return;
+      }
       if (!res.ok) {
         setError(data.error ?? "Could not load listing");
         setLoading(false);
