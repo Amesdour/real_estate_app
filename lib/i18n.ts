@@ -13,7 +13,7 @@ export function isLocale(value: string | undefined): value is Locale {
 
 const dictionaries = {
   ar: {
-    appName: "تراسو",
+    appName: "Terraco",
     nav: {
       admin: "الإدارة",
       listProperty: "أضف عقارًا",
@@ -63,7 +63,7 @@ const dictionaries = {
     },
   },
   fr: {
-    appName: "Terraço",
+    appName: "Terraco",
     nav: {
       admin: "Admin",
       listProperty: "Publier une annonce",
@@ -113,7 +113,7 @@ const dictionaries = {
     },
   },
   en: {
-    appName: "Terraço",
+    appName: "Terraco",
     nav: {
       admin: "Admin",
       listProperty: "List a property",

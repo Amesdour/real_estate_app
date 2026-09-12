@@ -129,7 +129,7 @@ export function ConversationThread({
               >
                 {!fromMe && (
                   <p className="mb-1 text-xs font-medium text-brand-700">
-                    {fromAdmin ? "Terraço team" : m.sender.email}
+                    {fromAdmin ? "Terraco team" : m.sender.email}
                   </p>
                 )}
                 <p className="whitespace-pre-wrap">{m.body}</p>

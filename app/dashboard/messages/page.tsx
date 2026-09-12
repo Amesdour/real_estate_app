@@ -21,7 +21,7 @@ export default async function MyMessagesPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="font-display text-3xl text-brand-900">Messages</h1>
-      <p className="mt-1 text-sm text-brand-700">Your conversations with the Terraço team.</p>
+      <p className="mt-1 text-sm text-brand-700">Your conversations with the Terraco team.</p>
 
       {conversations.length === 0 ? (
         <div className="mt-10 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700">

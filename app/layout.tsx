@@ -7,7 +7,7 @@ import { DEFAULT_LOCALE, LOCALE_COOKIE, dirFor, getDictionary, isLocale } from "
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Terraço — find and reserve a place",
+  title: "Terraco — find and reserve a place",
   description: "Browse listings and place a time-limited hold with a small reservation fee.",
 };
 

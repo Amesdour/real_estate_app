@@ -6,7 +6,7 @@ import { Spinner } from "./Spinner";
 
 /**
  * Sends the buyer's message to the PLATFORM, not to the property's agent or
- * owner — Terraço is always the intermediary, by design. There is no field or
+ * owner — Terraco is always the intermediary, by design. There is no field or
  * code path here that routes a message directly to an agent/owner.
  */
 export function ContactPlatformForm({ propertyId, isLoggedIn }: { propertyId: string; isLoggedIn: boolean }) {
@@ -22,7 +22,7 @@ export function ContactPlatformForm({ propertyId, isLoggedIn }: { propertyId: st
           <a href="/login" className="text-brand-900 underline">
             Sign in
           </a>{" "}
-          to ask the Terraço team a question about this listing.
+          to ask the Terraco team a question about this listing.
         </p>
       </div>
     );
@@ -51,7 +51,7 @@ export function ContactPlatformForm({ propertyId, isLoggedIn }: { propertyId: st
 
   return (
     <form onSubmit={submit} className="card p-6">
-      <p className="font-display text-base text-brand-900">Ask the Terraço team</p>
+      <p className="font-display text-base text-brand-900">Ask the Terraco team</p>
       <p className="mt-1 text-xs text-brand-700">
         Questions about a listing go through our team, not directly to the agent or owner.
       </p>
