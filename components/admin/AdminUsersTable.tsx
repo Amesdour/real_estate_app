@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Spinner } from "../Spinner";
 
 type AdminUser = {
   id: string;
@@ -47,12 +48,12 @@ export function AdminUsersTable({ currentUserId }: { currentUserId: string }) {
     }
   }
 
-  if (!users) return <p className="text-brand-700">Loading…</p>;
+  if (!users) return <div className="flex items-center gap-2 text-brand-700"><Spinner className="h-4 w-4" />Loading…</div>;
 
   return (
     <div>
-      {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
-      <div className="overflow-x-auto rounded-2xl border border-brand-200 bg-white">
+      {error && <p className="field-error mb-4">{error}</p>}
+      <div className="card overflow-x-auto">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-brand-200 text-xs text-brand-700">
             <tr>
