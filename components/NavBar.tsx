@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { cookies } from "next/headers";
 import { getCurrentUser } from "@/lib/auth";
 import { LogoutButton } from "./LogoutButton";
@@ -19,7 +20,8 @@ export async function NavBar() {
   return (
     <header className="border-b border-brand-200/60 dark:border-brand-800">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-        <Link href="/" className="font-display text-xl tracking-tight text-brand-900 dark:text-brand-50">
+        <Link href="/" className="flex items-center gap-2.5 font-display text-xl tracking-tight text-brand-900 dark:text-brand-50">
+          <Image src="/logo/icon.svg" alt="" width={32} height={32} className="rounded-lg" priority />
           {appName}
         </Link>
         <nav className="flex items-center gap-5">
