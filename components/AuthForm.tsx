@@ -22,7 +22,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(mode === "register" ? { email, password, role } : { email, password }),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => null);
+      if (!data) throw new Error("Server error — please try again in a moment");
       if (!res.ok) throw new Error(data.error ?? "Something went wrong");
       router.push("/");
       router.refresh();
