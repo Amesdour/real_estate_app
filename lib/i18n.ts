@@ -17,6 +17,7 @@ const dictionaries = {
     nav: {
       admin: "الإدارة",
       listProperty: "أضف عقارًا",
+      myListings: "عقاراتي",
       messages: "الرسائل",
       myReservations: "حجوزاتي",
       signIn: "تسجيل الدخول",
@@ -67,6 +68,7 @@ const dictionaries = {
     nav: {
       admin: "Admin",
       listProperty: "Publier une annonce",
+      myListings: "Mes annonces",
       messages: "Messages",
       myReservations: "Mes réservations",
       signIn: "Se connecter",
@@ -117,6 +119,7 @@ const dictionaries = {
     nav: {
       admin: "Admin",
       listProperty: "List a property",
+      myListings: "My listings",
       messages: "Messages",
       myReservations: "My reservations",
       signIn: "Sign in",

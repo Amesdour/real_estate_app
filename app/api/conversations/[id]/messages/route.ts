@@ -3,19 +3,24 @@ import { prisma } from "@/lib/prisma";
 import { requireUser, AuthError } from "@/lib/auth";
 import { messageCreateSchema } from "@/lib/validation";
 
-/** Sends a reply in an existing thread. Only the buyer or a SUPER_ADMIN may post. */
+/** Sends a reply in an existing thread. Only the buyer, a SUPER_ADMIN, or the
+ * property's own agent/owner (their own listings only) may post. */
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const user = await requireUser();
 
-    const conversation = await prisma.conversation.findUnique({ where: { id: params.id } });
+    const conversation = await prisma.conversation.findUnique({
+      where: { id: params.id },
+      include: { property: { select: { ownerId: true } } },
+    });
     if (!conversation) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
     const isOwnerBuyer = conversation.buyerId === user.id;
     const isAdmin = user.role === "SUPER_ADMIN";
-    if (!isOwnerBuyer && !isAdmin) {
+    const isListingOwner = conversation.property?.ownerId === user.id;
+    if (!isOwnerBuyer && !isAdmin && !isListingOwner) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 

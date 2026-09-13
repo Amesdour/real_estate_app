@@ -119,7 +119,7 @@ export function ConversationThread({
       <div className="max-h-96 space-y-3 overflow-y-auto px-5 py-4">
         {conversation.messages.map((m) => {
           const fromMe = m.sender.id === currentUserId;
-          const fromAdmin = m.sender.role === "SUPER_ADMIN";
+          const isStaffReply = m.sender.role === "SUPER_ADMIN" || m.sender.role === "AGENT" || m.sender.role === "PROPERTY_OWNER";
           return (
             <div key={m.id} className={`flex ${fromMe ? "justify-end" : "justify-start"}`}>
               <div
@@ -129,7 +129,7 @@ export function ConversationThread({
               >
                 {!fromMe && (
                   <p className="mb-1 text-xs font-medium text-brand-700">
-                    {fromAdmin ? "Terraco team" : m.sender.email}
+                    {isStaffReply ? "Terraco team" : m.sender.email}
                   </p>
                 )}
                 <p className="whitespace-pre-wrap">{m.body}</p>

@@ -5,9 +5,12 @@ import { useRouter } from "next/navigation";
 import { Spinner } from "./Spinner";
 
 /**
- * Sends the buyer's message to the PLATFORM, not to the property's agent or
- * owner — Terraco is always the intermediary, by design. There is no field or
- * code path here that routes a message directly to an agent/owner.
+ * Sends the buyer's message into a platform-mediated thread — it's never a
+ * direct, unlogged channel to the property's agent/owner. The listing's own
+ * agent/owner CAN see and reply to this specific thread (since it's about
+ * their listing), and SUPER_ADMIN can see every thread, but there's no path
+ * for an unrelated agent/owner to see a conversation that isn't about one of
+ * their own properties.
  */
 export function ContactPlatformForm({ propertyId, isLoggedIn }: { propertyId: string; isLoggedIn: boolean }) {
   const router = useRouter();

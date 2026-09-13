@@ -31,13 +31,13 @@ export async function NavBar() {
             </Link>
           )}
           {canList && (
-            <Link href="/list-property" className="text-sm text-brand-700 hover:text-brand-900 dark:text-brand-200 dark:hover:text-brand-50">
-              {t.listProperty}
+            <Link href="/dashboard/listings" className="text-sm text-brand-700 hover:text-brand-900 dark:text-brand-200 dark:hover:text-brand-50">
+              {t.myListings}
             </Link>
           )}
           {user ? (
             <>
-              {!isAdmin && (
+              {!isAdmin && !canList && (
                 <>
                   <Link href="/dashboard/messages" className="text-sm text-brand-700 hover:text-brand-900 dark:text-brand-200 dark:hover:text-brand-50">
                     {t.messages}
