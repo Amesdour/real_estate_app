@@ -21,6 +21,8 @@ const config: Config = {
           950: "#0d1811",
         },
         sand: "#f7f4ee",
+        cream: "#f7f0dd",
+        "honey-white": "#f5e9ad",
       },
       fontFamily: {
         display: ["'Fraunces'", "serif"],

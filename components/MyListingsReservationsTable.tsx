@@ -31,7 +31,7 @@ export function MyListingsReservationsTable() {
 
   if (!reservations) {
     return (
-      <div className="flex items-center gap-2 text-brand-700 dark:text-brand-200">
+      <div className="flex items-center gap-2 text-brand-700 dark:text-honey-white">
         <Spinner className="h-4 w-4" />
         Loading…
       </div>
@@ -40,7 +40,7 @@ export function MyListingsReservationsTable() {
 
   if (reservations.length === 0) {
     return (
-      <div className="card border-dashed p-12 text-center text-brand-700 dark:text-brand-200">
+      <div className="card border-dashed p-12 text-center text-brand-700 dark:text-honey-white">
         No reservations on your listings yet.
       </div>
     );
@@ -49,7 +49,7 @@ export function MyListingsReservationsTable() {
   return (
     <div className="card overflow-x-auto">
       <table className="w-full text-start text-sm">
-        <thead className="border-b border-brand-200 text-xs text-brand-700 dark:border-brand-800 dark:text-brand-200">
+        <thead className="border-b border-brand-200 text-xs text-brand-700 dark:border-brand-800 dark:text-honey-white">
           <tr>
             <th className="p-3">Property</th>
             <th className="p-3">Buyer</th>
@@ -60,11 +60,11 @@ export function MyListingsReservationsTable() {
           {reservations.map((r) => (
             <tr key={r.id} className="border-b border-brand-100 last:border-0 dark:border-brand-800">
               <td className="p-3">
-                <Link href={`/properties/${r.property.slug}`} className="text-brand-900 hover:underline dark:text-brand-50">
+                <Link href={`/properties/${r.property.slug}`} className="text-brand-900 hover:underline dark:text-cream">
                   {r.property.title}
                 </Link>
               </td>
-              <td className="p-3 text-brand-700 dark:text-brand-200">{r.buyer.email}</td>
+              <td className="p-3 text-brand-700 dark:text-honey-white">{r.buyer.email}</td>
               <td className="p-3">
                 <span className={`pill ${statusColors[r.status] ?? "bg-brand-50 text-brand-700"}`}>
                   {r.status.replace(/_/g, " ")}

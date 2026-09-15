@@ -22,7 +22,7 @@ export function ContactPlatformForm({ propertyId, isLoggedIn }: { propertyId: st
     return (
       <div className="card p-6">
         <p className="text-sm text-brand-700">
-          <a href="/login" className="text-brand-900 underline">
+          <a href="/login" className="text-brand-900 dark:text-cream underline">
             Sign in
           </a>{" "}
           to ask the Terraco team a question about this listing.
@@ -54,7 +54,7 @@ export function ContactPlatformForm({ propertyId, isLoggedIn }: { propertyId: st
 
   return (
     <form onSubmit={submit} className="card p-6">
-      <p className="font-display text-base text-brand-900">Ask the Terraco team</p>
+      <p className="font-display text-base text-brand-900 dark:text-cream">Ask the Terraco team</p>
       <p className="mt-1 text-xs text-brand-700">
         Questions about a listing go through our team, not directly to the agent or owner.
       </p>

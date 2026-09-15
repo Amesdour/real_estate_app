@@ -95,7 +95,7 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
     return (
       <div className="card p-6">
         <p className="text-brand-700">
-          <a href="/login" className="text-brand-900 underline">
+          <a href="/login" className="text-brand-900 dark:text-cream underline">
             Sign in
           </a>{" "}
           to place a hold on this property.
@@ -107,7 +107,7 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
   if (reservation?.status === "CONFIRMED") {
     return (
       <div className="card p-6">
-        <p className="font-medium text-brand-900">Reservation confirmed</p>
+        <p className="font-medium text-brand-900 dark:text-cream">Reservation confirmed</p>
         <p className="mt-1 text-sm text-brand-700">
           The property is held for you. An agent will follow up to arrange next steps.
         </p>
@@ -118,7 +118,7 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
   if (reservation?.status === "HOLD_PENDING_PAYMENT") {
     return (
       <div className="card p-6">
-        <p className="font-medium text-brand-900">Hold placed</p>
+        <p className="font-medium text-brand-900 dark:text-cream">Hold placed</p>
         <p className="mt-1 text-sm text-brand-700">
           {secondsLeft !== null && secondsLeft > 0
             ? `This hold expires in ${Math.floor(secondsLeft / 60)}:${String(secondsLeft % 60).padStart(2, "0")}.`
@@ -140,7 +140,7 @@ export function ReservationPanel({ propertyId, propertyStatus, reservationFee, i
 
   return (
     <div className="card p-6">
-      <p className="font-display text-lg text-brand-900">
+      <p className="font-display text-lg text-brand-900 dark:text-cream">
         Reservation fee: {formatDA(reservationFee)}
       </p>
       <p className="mt-1 text-sm text-brand-700">

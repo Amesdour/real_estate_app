@@ -30,13 +30,13 @@ export default async function AdminPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
-      <h1 className="font-display text-3xl text-brand-900">Admin</h1>
+      <h1 className="font-display text-3xl text-brand-900 dark:text-cream">Admin</h1>
       <p className="mt-1 text-sm text-brand-700">Platform-wide overview.</p>
 
       <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
         {stats.map((s) => (
           <Link key={s.label} href={s.href} className="card card-interactive block p-4">
-            <p className="font-display text-2xl text-brand-900">{s.value}</p>
+            <p className="font-display text-2xl text-brand-900 dark:text-cream">{s.value}</p>
             <p className="mt-1 text-xs text-brand-700">{s.label}</p>
           </Link>
         ))}

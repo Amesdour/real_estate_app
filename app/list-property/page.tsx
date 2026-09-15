@@ -11,7 +11,7 @@ export default async function ListPropertyPage() {
 
   return (
     <div className="mx-auto max-w-xl px-6 py-16">
-      <h1 className="font-display text-3xl text-brand-900">List a property</h1>
+      <h1 className="font-display text-3xl text-brand-900 dark:text-cream">List a property</h1>
       <p className="mt-2 text-sm text-brand-700">
         New listings start as pending approval and won't appear publicly until published.
       </p>

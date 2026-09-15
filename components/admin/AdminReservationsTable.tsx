@@ -86,7 +86,7 @@ export function AdminReservationsTable() {
             {reservations.map((r) => (
               <tr key={r.id} className="border-b border-brand-100 last:border-0">
                 <td className="p-3">
-                  <Link href={`/properties/${r.property.slug}`} className="text-brand-900 hover:underline">
+                  <Link href={`/properties/${r.property.slug}`} className="text-brand-900 dark:text-cream hover:underline">
                     {r.property.title}
                   </Link>
                 </td>
@@ -103,7 +103,7 @@ export function AdminReservationsTable() {
                         key={a.next}
                         onClick={() => setStatus(r.id, a.next)}
                         disabled={busyId === r.id}
-                        className="text-xs text-brand-700 underline hover:text-brand-900 disabled:opacity-50"
+                        className="text-xs text-brand-700 underline hover:text-brand-900 dark:text-cream disabled:opacity-50"
                       >
                         {a.label}
                       </button>

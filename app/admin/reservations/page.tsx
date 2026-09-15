@@ -9,7 +9,7 @@ export default async function AdminReservationsPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
-      <h1 className="font-display text-3xl text-brand-900">Manage reservations</h1>
+      <h1 className="font-display text-3xl text-brand-900 dark:text-cream">Manage reservations</h1>
       <p className="mt-1 text-sm text-brand-700">
         Every hold across all buyers and listings. Confirm on a buyer's behalf if they paid the
         reservation fee outside the app, or cancel/complete as needed.

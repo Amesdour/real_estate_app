@@ -37,12 +37,12 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="font-display text-3xl text-brand-900">My reservations</h1>
+      <h1 className="font-display text-3xl text-brand-900 dark:text-cream">My reservations</h1>
 
       {reservations.length === 0 ? (
         <div className="mt-10 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700">
           You haven't placed any holds yet.{" "}
-          <Link href="/" className="text-brand-900 underline">
+          <Link href="/" className="text-brand-900 dark:text-cream underline">
             Browse listings
           </Link>
           .
@@ -53,7 +53,7 @@ export default async function DashboardPage() {
             <li key={r.id} className="card p-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <Link href={`/properties/${r.property.slug}`} className="font-display text-lg text-brand-900 hover:underline">
+                  <Link href={`/properties/${r.property.slug}`} className="font-display text-lg text-brand-900 dark:text-cream hover:underline">
                     {r.property.title}
                   </Link>
                   <p className="mt-1 text-sm text-brand-700">

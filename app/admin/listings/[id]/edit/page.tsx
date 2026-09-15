@@ -9,7 +9,7 @@ export default async function AdminEditListingPage({ params }: { params: { id: s
 
   return (
     <div className="mx-auto max-w-xl px-6 py-16">
-      <h1 className="font-display text-3xl text-brand-900">Edit listing</h1>
+      <h1 className="font-display text-3xl text-brand-900 dark:text-cream">Edit listing</h1>
       <p className="mt-1 text-sm text-brand-700">
         Full control over this listing — status, details, photos, and expiry.
       </p>

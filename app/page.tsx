@@ -41,8 +41,8 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       <div className="max-w-xl">
-        <h1 className="font-display text-4xl leading-tight text-brand-900 dark:text-brand-50">{t.title}</h1>
-        <p className="mt-4 text-brand-700 dark:text-brand-200">{t.subtitle}</p>
+        <h1 className="font-display text-4xl leading-tight text-brand-900 dark:text-cream">{t.title}</h1>
+        <p className="mt-4 text-brand-700 dark:text-honey-white">{t.subtitle}</p>
       </div>
 
       <div className="mt-8">
@@ -50,7 +50,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
       </div>
 
       {properties.length === 0 ? (
-        <div className="mt-8 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700 dark:border-brand-700 dark:text-brand-200">
+        <div className="mt-8 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700 dark:border-brand-700 dark:text-honey-white">
           {hasFilters ? (
             t.empty
           ) : (

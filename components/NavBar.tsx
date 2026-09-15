@@ -20,18 +20,18 @@ export async function NavBar() {
   return (
     <header className="border-b border-brand-200/60 dark:border-brand-800">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-        <Link href="/" className="flex items-center gap-2.5 font-display text-xl tracking-tight text-brand-900 dark:text-brand-50">
+        <Link href="/" className="flex items-center gap-2.5 font-display text-xl tracking-tight text-brand-900 dark:text-cream">
           <Image src="/logo/icon.svg" alt="" width={32} height={32} className="rounded-lg" priority />
           {appName}
         </Link>
         <nav className="flex items-center gap-5">
           {isAdmin && (
-            <Link href="/admin" className="text-sm text-brand-700 hover:text-brand-900 dark:text-brand-200 dark:hover:text-brand-50">
+            <Link href="/admin" className="text-sm text-brand-700 hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
               {t.admin}
             </Link>
           )}
           {canList && (
-            <Link href="/dashboard/listings" className="text-sm text-brand-700 hover:text-brand-900 dark:text-brand-200 dark:hover:text-brand-50">
+            <Link href="/dashboard/listings" className="text-sm text-brand-700 hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
               {t.myListings}
             </Link>
           )}
@@ -39,10 +39,10 @@ export async function NavBar() {
             <>
               {!isAdmin && !canList && (
                 <>
-                  <Link href="/dashboard/messages" className="text-sm text-brand-700 hover:text-brand-900 dark:text-brand-200 dark:hover:text-brand-50">
+                  <Link href="/dashboard/messages" className="text-sm text-brand-700 hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
                     {t.messages}
                   </Link>
-                  <Link href="/dashboard" className="text-sm text-brand-700 hover:text-brand-900 dark:text-brand-200 dark:hover:text-brand-50">
+                  <Link href="/dashboard" className="text-sm text-brand-700 hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
                     {t.myReservations}
                   </Link>
                 </>
@@ -51,7 +51,7 @@ export async function NavBar() {
             </>
           ) : (
             <>
-              <Link href="/login" className="text-sm text-brand-700 hover:text-brand-900 dark:text-brand-200 dark:hover:text-brand-50">
+              <Link href="/login" className="text-sm text-brand-700 hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
                 {t.signIn}
               </Link>
               <Link href="/register" className="btn-primary !px-4 !py-2">

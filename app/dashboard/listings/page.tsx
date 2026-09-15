@@ -11,7 +11,7 @@ export default async function MyListingsPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl text-brand-900 dark:text-brand-50">My listings</h1>
+        <h1 className="font-display text-3xl text-brand-900 dark:text-cream">My listings</h1>
         <Link href="/list-property" className="btn-primary">
           List a property
         </Link>

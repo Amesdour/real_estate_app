@@ -77,12 +77,12 @@ export function FilterBar() {
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center justify-between px-4 py-3.5 text-start"
       >
-        <span className="flex items-center gap-2 text-sm font-medium text-brand-900 dark:text-brand-50">
+        <span className="flex items-center gap-2 text-sm font-medium text-brand-900 dark:text-cream">
           {t.title}
           {activeCount > 0 && <span className="pill pill-active !px-2 !py-0.5">{activeCount}</span>}
         </span>
         <svg
-          className={`h-4 w-4 text-brand-700 transition-transform duration-200 dark:text-brand-200 ${open ? "rotate-180" : ""}`}
+          className={`h-4 w-4 text-brand-700 transition-transform duration-200 dark:text-honey-white ${open ? "rotate-180" : ""}`}
           viewBox="0 0 20 20"
           fill="none"
         >

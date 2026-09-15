@@ -66,7 +66,7 @@ export function AdminUsersTable({ currentUserId }: { currentUserId: string }) {
           <tbody>
             {users.map((u) => (
               <tr key={u.id} className="border-b border-brand-100 last:border-0">
-                <td className="p-3 text-brand-900">{u.email}</td>
+                <td className="p-3 text-brand-900 dark:text-cream">{u.email}</td>
                 <td className="p-3">
                   <select
                     value={u.role}

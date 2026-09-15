@@ -62,7 +62,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
           className="field"
         />
         {mode === "register" && (
-          <p className="mt-1 text-xs text-brand-700/70 dark:text-brand-200/60">{t.passwordHint}</p>
+          <p className="mt-1 text-xs text-brand-700/70 dark:text-honey-white/60">{t.passwordHint}</p>
         )}
       </div>
       {mode === "register" && (

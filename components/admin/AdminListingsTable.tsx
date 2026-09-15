@@ -89,7 +89,7 @@ export function AdminListingsTable() {
             {properties.map((p) => (
               <tr key={p.id} className="border-b border-brand-100 last:border-0">
                 <td className="p-3">
-                  <Link href={`/properties/${p.slug}`} className="text-brand-900 hover:underline">
+                  <Link href={`/properties/${p.slug}`} className="text-brand-900 dark:text-cream hover:underline">
                     {p.title}
                   </Link>
                   <p className="text-xs text-brand-700">{p.city}</p>

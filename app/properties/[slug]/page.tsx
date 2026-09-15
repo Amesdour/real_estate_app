@@ -43,7 +43,7 @@ export default async function PropertyPage({ params }: { params: { slug: string 
             </div>
           )}
 
-          <h1 className="mt-8 font-display text-3xl text-brand-900">{property.title}</h1>
+          <h1 className="mt-8 font-display text-3xl text-brand-900 dark:text-cream">{property.title}</h1>
           <p className="mt-1 text-brand-700">
             {property.address}, {property.city}, {property.country}
           </p>
@@ -79,7 +79,7 @@ export default async function PropertyPage({ params }: { params: { slug: string 
               {Object.entries(attributes).map(([key, value]) => (
                 <div key={key}>
                   <dt className="text-xs text-brand-700">{key}</dt>
-                  <dd className="text-sm text-brand-900">{String(value)}</dd>
+                  <dd className="text-sm text-brand-900 dark:text-cream">{String(value)}</dd>
                 </div>
               ))}
             </dl>
@@ -88,7 +88,7 @@ export default async function PropertyPage({ params }: { params: { slug: string 
 
         <div className="space-y-4">
           <div className="card p-6">
-            <p className="font-display text-2xl text-brand-900">{formatDA(property.price)}</p>
+            <p className="font-display text-2xl text-brand-900 dark:text-cream">{formatDA(property.price)}</p>
             <p className="mt-1 text-sm text-brand-700 capitalize">{property.status.toLowerCase().replace("_", " ")}</p>
           </div>
           <ReservationPanel

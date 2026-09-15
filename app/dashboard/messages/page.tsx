@@ -20,7 +20,7 @@ export default async function MyMessagesPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="font-display text-3xl text-brand-900">Messages</h1>
+      <h1 className="font-display text-3xl text-brand-900 dark:text-cream">Messages</h1>
       <p className="mt-1 text-sm text-brand-700">Your conversations with the Terraco team.</p>
 
       {conversations.length === 0 ? (
@@ -36,7 +36,7 @@ export default async function MyMessagesPage() {
                 className="card card-interactive block p-5"
               >
                 <div className="flex items-center justify-between">
-                  <p className="font-display text-base text-brand-900">
+                  <p className="font-display text-base text-brand-900 dark:text-cream">
                     {c.property?.title ?? "General inquiry"}
                   </p>
                   <span

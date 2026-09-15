@@ -139,7 +139,7 @@ export function ListPropertyForm() {
           ✓
         </div>
         <div>
-          <p className="font-medium text-brand-900">Listing submitted</p>
+          <p className="font-medium text-brand-900 dark:text-cream">Listing submitted</p>
           <p className="mt-1 text-sm text-brand-700">
             It's saved as <strong>pending approval</strong> — an admin needs to publish it before it shows
             up in the public listings.

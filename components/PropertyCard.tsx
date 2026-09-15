@@ -52,12 +52,12 @@ export function PropertyCard({ slug, title, city, country, price, type, listingK
         )}
       </div>
       <div className="p-4">
-        <h3 className="truncate font-display text-lg text-brand-900 dark:text-brand-50">{title}</h3>
-        <p className="mt-1 text-sm text-brand-700 dark:text-brand-200">
+        <h3 className="truncate font-display text-lg text-brand-900 dark:text-cream">{title}</h3>
+        <p className="mt-1 text-sm text-brand-700 dark:text-honey-white">
           {city}, {country}
           {typeof bedrooms === "number" && ` · ${bedrooms} ${t.bedroomsShort}`}
         </p>
-        <p className="mt-2 font-display text-lg text-brand-900 dark:text-brand-50">{price}</p>
+        <p className="mt-2 font-display text-lg text-brand-900 dark:text-cream">{price}</p>
       </div>
     </Link>
   );

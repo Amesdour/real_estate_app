@@ -94,9 +94,9 @@ export function ConversationThread({
       <div className="flex items-center justify-between border-b border-brand-200/60 px-5 py-4">
         <div>
           {conversation.property ? (
-            <p className="font-display text-base text-brand-900">{conversation.property.title}</p>
+            <p className="font-display text-base text-brand-900 dark:text-cream">{conversation.property.title}</p>
           ) : (
-            <p className="font-display text-base text-brand-900">General inquiry</p>
+            <p className="font-display text-base text-brand-900 dark:text-cream">General inquiry</p>
           )}
           {isAdmin && <p className="mt-0.5 text-xs text-brand-700">{conversation.buyer.email}</p>}
         </div>
@@ -109,7 +109,7 @@ export function ConversationThread({
             {conversation.status === "OPEN" ? "Open" : "Closed"}
           </span>
           {isAdmin && (
-            <button onClick={toggleStatus} className="text-xs text-brand-700 underline hover:text-brand-900">
+            <button onClick={toggleStatus} className="text-xs text-brand-700 underline hover:text-brand-900 dark:text-cream">
               {conversation.status === "OPEN" ? "Mark resolved" : "Reopen"}
             </button>
           )}
@@ -124,7 +124,7 @@ export function ConversationThread({
             <div key={m.id} className={`flex ${fromMe ? "justify-end" : "justify-start"}`}>
               <div
                 className={`max-w-[75%] rounded-2xl px-4 py-2 text-sm ${
-                  fromMe ? "bg-brand-600 text-white" : "bg-brand-50 text-brand-900"
+                  fromMe ? "bg-brand-600 text-white" : "bg-brand-50 text-brand-900 dark:text-cream"
                 }`}
               >
                 {!fromMe && (

@@ -9,8 +9,8 @@ export default async function MyListingsReservationsPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
-      <h1 className="font-display text-3xl text-brand-900 dark:text-brand-50">Reservations on my listings</h1>
-      <p className="mt-1 text-sm text-brand-700 dark:text-brand-200">
+      <h1 className="font-display text-3xl text-brand-900 dark:text-cream">Reservations on my listings</h1>
+      <p className="mt-1 text-sm text-brand-700 dark:text-honey-white">
         Read-only — confirming, cancelling, or completing a reservation is handled by the platform team.
       </p>
       <div className="mt-8">

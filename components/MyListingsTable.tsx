@@ -33,7 +33,7 @@ export function MyListingsTable() {
 
   if (!properties) {
     return (
-      <div className="flex items-center gap-2 text-brand-700 dark:text-brand-200">
+      <div className="flex items-center gap-2 text-brand-700 dark:text-honey-white">
         <Spinner className="h-4 w-4" />
         Loading…
       </div>
@@ -42,9 +42,9 @@ export function MyListingsTable() {
 
   if (properties.length === 0) {
     return (
-      <div className="card border-dashed p-12 text-center text-brand-700 dark:text-brand-200">
+      <div className="card border-dashed p-12 text-center text-brand-700 dark:text-honey-white">
         You haven't listed anything yet.{" "}
-        <Link href="/list-property" className="text-brand-900 underline dark:text-brand-50">
+        <Link href="/list-property" className="text-brand-900 underline dark:text-cream">
           List a property
         </Link>
         .
@@ -58,10 +58,10 @@ export function MyListingsTable() {
         <li key={p.id} className="card p-5">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <Link href={`/properties/${p.slug}`} className="font-display text-lg text-brand-900 hover:underline dark:text-brand-50">
+              <Link href={`/properties/${p.slug}`} className="font-display text-lg text-brand-900 hover:underline dark:text-cream">
                 {p.title}
               </Link>
-              <p className="mt-1 text-sm text-brand-700 dark:text-brand-200">
+              <p className="mt-1 text-sm text-brand-700 dark:text-honey-white">
                 {p._count.reservations} reservation{p._count.reservations !== 1 && "s"} ·{" "}
                 {p._count.conversations} message{p._count.conversations !== 1 && "s"}
               </p>
