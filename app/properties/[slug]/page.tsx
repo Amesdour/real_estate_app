@@ -44,30 +44,30 @@ export default async function PropertyPage({ params }: { params: { slug: string 
           )}
 
           <h1 className="mt-8 font-display text-3xl text-brand-900 dark:text-cream">{property.title}</h1>
-          <p className="mt-1 text-brand-700">
+          <p className="mt-1 text-brand-700 dark:text-honey-white">
             {property.address}, {property.city}, {property.country}
           </p>
           <p className="mt-6 whitespace-pre-line text-brand-900/90">{property.description}</p>
 
           <div className="mt-3 flex flex-wrap gap-2 text-xs">
-            <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700">
+            <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700 dark:text-honey-white">
               {property.listingKind === "RENT" ? "For rent" : "For sale"}
             </span>
             {property.bedrooms != null && (
-              <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700">{property.bedrooms} bedrooms</span>
+              <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700 dark:text-honey-white">{property.bedrooms} bedrooms</span>
             )}
             {property.bathrooms != null && (
-              <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700">{property.bathrooms} bathrooms</span>
+              <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700 dark:text-honey-white">{property.bathrooms} bathrooms</span>
             )}
             {property.areaSqm != null && (
-              <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700">{property.areaSqm} m²</span>
+              <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700 dark:text-honey-white">{property.areaSqm} m²</span>
             )}
           </div>
 
           {property.amenities.length > 0 && (
             <div className="mt-6 flex flex-wrap gap-2 border-t border-brand-200 pt-6">
               {property.amenities.map((a) => (
-                <span key={a} className="rounded-full border border-brand-200 px-3 py-1 text-xs text-brand-700">
+                <span key={a} className="rounded-full border border-brand-200 px-3 py-1 text-xs text-brand-700 dark:text-honey-white">
                   {a.replace("_", " ").toLowerCase()}
                 </span>
               ))}
@@ -78,7 +78,7 @@ export default async function PropertyPage({ params }: { params: { slug: string 
             <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-brand-200 pt-6 sm:grid-cols-3">
               {Object.entries(attributes).map(([key, value]) => (
                 <div key={key}>
-                  <dt className="text-xs text-brand-700">{key}</dt>
+                  <dt className="text-xs text-brand-700 dark:text-honey-white">{key}</dt>
                   <dd className="text-sm text-brand-900 dark:text-cream">{String(value)}</dd>
                 </div>
               ))}
@@ -89,7 +89,7 @@ export default async function PropertyPage({ params }: { params: { slug: string 
         <div className="space-y-4">
           <div className="card p-6">
             <p className="font-display text-2xl text-brand-900 dark:text-cream">{formatDA(property.price)}</p>
-            <p className="mt-1 text-sm text-brand-700 capitalize">{property.status.toLowerCase().replace("_", " ")}</p>
+            <p className="mt-1 text-sm text-brand-700 dark:text-honey-white capitalize">{property.status.toLowerCase().replace("_", " ")}</p>
           </div>
           <ReservationPanel
             propertyId={property.id}

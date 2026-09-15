@@ -39,7 +39,7 @@ export function ReservationActions({ id, status }: { id: string; status: string 
         <button
           onClick={() => act("cancel")}
           disabled={loading}
-          className="rounded-full border border-brand-200 px-4 py-1.5 text-xs text-brand-700 hover:bg-brand-50 disabled:opacity-50"
+          className="rounded-full border border-brand-200 px-4 py-1.5 text-xs text-brand-700 dark:text-honey-white hover:bg-brand-50 disabled:opacity-50"
         >
           Cancel hold
         </button>

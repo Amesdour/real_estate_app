@@ -82,7 +82,7 @@ export function FilterBar() {
           {activeCount > 0 && <span className="pill pill-active !px-2 !py-0.5">{activeCount}</span>}
         </span>
         <svg
-          className={`h-4 w-4 text-brand-700 transition-transform duration-200 dark:text-honey-white ${open ? "rotate-180" : ""}`}
+          className={`h-4 w-4 text-brand-700 dark:text-honey-white transition-transform duration-200 dark:text-honey-white ${open ? "rotate-180" : ""}`}
           viewBox="0 0 20 20"
           fill="none"
         >

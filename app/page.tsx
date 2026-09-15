@@ -50,7 +50,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
       </div>
 
       {properties.length === 0 ? (
-        <div className="mt-8 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700 dark:border-brand-700 dark:text-honey-white">
+        <div className="mt-8 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700 dark:text-honey-white dark:border-brand-700 dark:text-honey-white">
           {hasFilters ? (
             t.empty
           ) : (

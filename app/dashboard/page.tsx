@@ -17,10 +17,10 @@ const statusLabels: Record<string, string> = {
 
 const statusColors: Record<string, string> = {
   HOLD_PENDING_PAYMENT: "bg-amber-50 text-amber-800",
-  CONFIRMED: "bg-brand-100 text-brand-700",
-  CANCELLED: "bg-brand-50 text-brand-700",
-  EXPIRED: "bg-brand-50 text-brand-700",
-  COMPLETED: "bg-brand-100 text-brand-700",
+  CONFIRMED: "bg-brand-100 text-brand-700 dark:text-honey-white",
+  CANCELLED: "bg-brand-50 text-brand-700 dark:text-honey-white",
+  EXPIRED: "bg-brand-50 text-brand-700 dark:text-honey-white",
+  COMPLETED: "bg-brand-100 text-brand-700 dark:text-honey-white",
 };
 
 export default async function DashboardPage() {
@@ -40,7 +40,7 @@ export default async function DashboardPage() {
       <h1 className="font-display text-3xl text-brand-900 dark:text-cream">My reservations</h1>
 
       {reservations.length === 0 ? (
-        <div className="mt-10 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700">
+        <div className="mt-10 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700 dark:text-honey-white">
           You haven't placed any holds yet.{" "}
           <Link href="/" className="text-brand-900 dark:text-cream underline">
             Browse listings
@@ -56,11 +56,11 @@ export default async function DashboardPage() {
                   <Link href={`/properties/${r.property.slug}`} className="font-display text-lg text-brand-900 dark:text-cream hover:underline">
                     {r.property.title}
                   </Link>
-                  <p className="mt-1 text-sm text-brand-700">
+                  <p className="mt-1 text-sm text-brand-700 dark:text-honey-white">
                     {r.property.city}, {r.property.country}
                   </p>
                 </div>
-                <span className={`rounded-full px-3 py-1 text-xs ${statusColors[r.status] ?? "bg-brand-50 text-brand-700"}`}>
+                <span className={`rounded-full px-3 py-1 text-xs ${statusColors[r.status] ?? "bg-brand-50 text-brand-700 dark:text-honey-white"}`}>
                   {statusLabels[r.status] ?? r.status}
                 </span>
               </div>

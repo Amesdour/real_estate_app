@@ -22,10 +22,10 @@ export default async function AdminMessagesPage() {
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
       <h1 className="font-display text-3xl text-brand-900 dark:text-cream">Messages</h1>
-      <p className="mt-1 text-sm text-brand-700">Every buyer thread. Agents and owners never see these.</p>
+      <p className="mt-1 text-sm text-brand-700 dark:text-honey-white">Every buyer thread. Agents and owners never see these.</p>
 
       {conversations.length === 0 ? (
-        <div className="mt-10 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700">
+        <div className="mt-10 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700 dark:text-honey-white">
           No messages yet.
         </div>
       ) : (
@@ -41,18 +41,18 @@ export default async function AdminMessagesPage() {
                     <p className="font-display text-base text-brand-900 dark:text-cream">
                       {c.property?.title ?? "General inquiry"}
                     </p>
-                    <p className="text-xs text-brand-700">{c.buyer.email}</p>
+                    <p className="text-xs text-brand-700 dark:text-honey-white">{c.buyer.email}</p>
                   </div>
                   <span
                     className={`rounded-full px-3 py-1 text-xs ${
-                      c.status === "OPEN" ? "bg-brand-100 text-brand-700" : "bg-brand-50 text-brand-700/70"
+                      c.status === "OPEN" ? "bg-brand-100 text-brand-700 dark:text-honey-white" : "bg-brand-50 text-brand-700/70 dark:text-honey-white/70"
                     }`}
                   >
                     {c.status === "OPEN" ? "Open" : "Closed"}
                   </span>
                 </div>
                 {c.messages[0] && (
-                  <p className="mt-1 truncate text-sm text-brand-700">{c.messages[0].body}</p>
+                  <p className="mt-1 truncate text-sm text-brand-700 dark:text-honey-white">{c.messages[0].body}</p>
                 )}
               </Link>
             </li>

@@ -4,7 +4,7 @@ export default function LoginPage() {
   return (
     <div className="mx-auto max-w-sm px-6 py-20">
       <h1 className="font-display text-2xl text-brand-900 dark:text-cream">Sign in</h1>
-      <p className="mt-2 text-sm text-brand-700">
+      <p className="mt-2 text-sm text-brand-700 dark:text-honey-white">
         New here?{" "}
         <a href="/register" className="text-brand-900 dark:text-cream underline">
           Create an account

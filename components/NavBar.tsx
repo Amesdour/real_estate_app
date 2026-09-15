@@ -26,12 +26,12 @@ export async function NavBar() {
         </Link>
         <nav className="flex items-center gap-5">
           {isAdmin && (
-            <Link href="/admin" className="text-sm text-brand-700 hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
+            <Link href="/admin" className="text-sm text-brand-700 dark:text-honey-white hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
               {t.admin}
             </Link>
           )}
           {canList && (
-            <Link href="/dashboard/listings" className="text-sm text-brand-700 hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
+            <Link href="/dashboard/listings" className="text-sm text-brand-700 dark:text-honey-white hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
               {t.myListings}
             </Link>
           )}
@@ -39,10 +39,10 @@ export async function NavBar() {
             <>
               {!isAdmin && !canList && (
                 <>
-                  <Link href="/dashboard/messages" className="text-sm text-brand-700 hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
+                  <Link href="/dashboard/messages" className="text-sm text-brand-700 dark:text-honey-white hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
                     {t.messages}
                   </Link>
-                  <Link href="/dashboard" className="text-sm text-brand-700 hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
+                  <Link href="/dashboard" className="text-sm text-brand-700 dark:text-honey-white hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
                     {t.myReservations}
                   </Link>
                 </>
@@ -51,7 +51,7 @@ export async function NavBar() {
             </>
           ) : (
             <>
-              <Link href="/login" className="text-sm text-brand-700 hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
+              <Link href="/login" className="text-sm text-brand-700 dark:text-honey-white hover:text-brand-900 dark:text-honey-white dark:hover:text-brand-50">
                 {t.signIn}
               </Link>
               <Link href="/register" className="btn-primary !px-4 !py-2">

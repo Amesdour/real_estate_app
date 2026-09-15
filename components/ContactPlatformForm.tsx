@@ -21,7 +21,7 @@ export function ContactPlatformForm({ propertyId, isLoggedIn }: { propertyId: st
   if (!isLoggedIn) {
     return (
       <div className="card p-6">
-        <p className="text-sm text-brand-700">
+        <p className="text-sm text-brand-700 dark:text-honey-white">
           <a href="/login" className="text-brand-900 dark:text-cream underline">
             Sign in
           </a>{" "}
@@ -55,7 +55,7 @@ export function ContactPlatformForm({ propertyId, isLoggedIn }: { propertyId: st
   return (
     <form onSubmit={submit} className="card p-6">
       <p className="font-display text-base text-brand-900 dark:text-cream">Ask the Terraco team</p>
-      <p className="mt-1 text-xs text-brand-700">
+      <p className="mt-1 text-xs text-brand-700 dark:text-honey-white">
         Questions about a listing go through our team, not directly to the agent or owner.
       </p>
       <textarea

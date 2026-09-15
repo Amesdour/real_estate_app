@@ -48,14 +48,14 @@ export function AdminUsersTable({ currentUserId }: { currentUserId: string }) {
     }
   }
 
-  if (!users) return <div className="flex items-center gap-2 text-brand-700"><Spinner className="h-4 w-4" />Loading…</div>;
+  if (!users) return <div className="flex items-center gap-2 text-brand-700 dark:text-honey-white"><Spinner className="h-4 w-4" />Loading…</div>;
 
   return (
     <div>
       {error && <p className="field-error mb-4">{error}</p>}
       <div className="card overflow-x-auto">
         <table className="w-full text-start text-sm">
-          <thead className="border-b border-brand-200 text-xs text-brand-700">
+          <thead className="border-b border-brand-200 text-xs text-brand-700 dark:text-honey-white">
             <tr>
               <th className="p-3">Email</th>
               <th className="p-3">Role</th>
@@ -82,8 +82,8 @@ export function AdminUsersTable({ currentUserId }: { currentUserId: string }) {
                     ))}
                   </select>
                 </td>
-                <td className="p-3 text-brand-700">{u._count.properties}</td>
-                <td className="p-3 text-brand-700">{u._count.reservations}</td>
+                <td className="p-3 text-brand-700 dark:text-honey-white">{u._count.properties}</td>
+                <td className="p-3 text-brand-700 dark:text-honey-white">{u._count.reservations}</td>
               </tr>
             ))}
           </tbody>

@@ -86,7 +86,7 @@ export function ConversationThread({
   }
 
   if (!conversation) {
-    return <p className="text-sm text-brand-700">Loading…</p>;
+    return <p className="text-sm text-brand-700 dark:text-honey-white">Loading…</p>;
   }
 
   return (
@@ -98,18 +98,18 @@ export function ConversationThread({
           ) : (
             <p className="font-display text-base text-brand-900 dark:text-cream">General inquiry</p>
           )}
-          {isAdmin && <p className="mt-0.5 text-xs text-brand-700">{conversation.buyer.email}</p>}
+          {isAdmin && <p className="mt-0.5 text-xs text-brand-700 dark:text-honey-white">{conversation.buyer.email}</p>}
         </div>
         <div className="flex items-center gap-3">
           <span
             className={`rounded-full px-3 py-1 text-xs ${
-              conversation.status === "OPEN" ? "bg-brand-100 text-brand-700" : "bg-brand-50 text-brand-700/70"
+              conversation.status === "OPEN" ? "bg-brand-100 text-brand-700 dark:text-honey-white" : "bg-brand-50 text-brand-700/70 dark:text-honey-white/70"
             }`}
           >
             {conversation.status === "OPEN" ? "Open" : "Closed"}
           </span>
           {isAdmin && (
-            <button onClick={toggleStatus} className="text-xs text-brand-700 underline hover:text-brand-900 dark:text-cream">
+            <button onClick={toggleStatus} className="text-xs text-brand-700 dark:text-honey-white underline hover:text-brand-900 dark:text-cream">
               {conversation.status === "OPEN" ? "Mark resolved" : "Reopen"}
             </button>
           )}
@@ -128,7 +128,7 @@ export function ConversationThread({
                 }`}
               >
                 {!fromMe && (
-                  <p className="mb-1 text-xs font-medium text-brand-700">
+                  <p className="mb-1 text-xs font-medium text-brand-700 dark:text-honey-white">
                     {isStaffReply ? "Terraco team" : m.sender.email}
                   </p>
                 )}

@@ -68,14 +68,14 @@ export function AdminListingsTable() {
     }
   }
 
-  if (!properties) return <div className="flex items-center gap-2 text-brand-700"><Spinner className="h-4 w-4" />Loading…</div>;
+  if (!properties) return <div className="flex items-center gap-2 text-brand-700 dark:text-honey-white"><Spinner className="h-4 w-4" />Loading…</div>;
 
   return (
     <div>
       {error && <p className="field-error mb-4">{error}</p>}
       <div className="card overflow-x-auto">
         <table className="w-full text-start text-sm">
-          <thead className="border-b border-brand-200 text-xs text-brand-700">
+          <thead className="border-b border-brand-200 text-xs text-brand-700 dark:text-honey-white">
             <tr>
               <th className="p-3">Title</th>
               <th className="p-3">Owner</th>
@@ -92,10 +92,10 @@ export function AdminListingsTable() {
                   <Link href={`/properties/${p.slug}`} className="text-brand-900 dark:text-cream hover:underline">
                     {p.title}
                   </Link>
-                  <p className="text-xs text-brand-700">{p.city}</p>
+                  <p className="text-xs text-brand-700 dark:text-honey-white">{p.city}</p>
                 </td>
-                <td className="p-3 text-brand-700">{p.owner.email}</td>
-                <td className="p-3 text-brand-700">{formatDA(p.price)}</td>
+                <td className="p-3 text-brand-700 dark:text-honey-white">{p.owner.email}</td>
+                <td className="p-3 text-brand-700 dark:text-honey-white">{formatDA(p.price)}</td>
                 <td className="p-3">
                   <select
                     value={p.status}
@@ -110,10 +110,10 @@ export function AdminListingsTable() {
                     ))}
                   </select>
                 </td>
-                <td className="p-3 text-brand-700">{p.reservations.length}</td>
+                <td className="p-3 text-brand-700 dark:text-honey-white">{p.reservations.length}</td>
                 <td className="p-3">
                   <div className="flex items-center gap-3">
-                    <Link href={`/admin/listings/${p.id}/edit`} className="text-xs text-brand-700 hover:underline">
+                    <Link href={`/admin/listings/${p.id}/edit`} className="text-xs text-brand-700 dark:text-honey-white hover:underline">
                       Edit
                     </Link>
                     <button

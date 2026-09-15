@@ -10,7 +10,7 @@ export default async function AdminListingsPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       <h1 className="font-display text-3xl text-brand-900 dark:text-cream">Manage listings</h1>
-      <p className="mt-1 text-sm text-brand-700">
+      <p className="mt-1 text-sm text-brand-700 dark:text-honey-white">
         Approve a pending listing by setting it to Available, or send it back to Draft to reject it.
       </p>
       <div className="mt-8">

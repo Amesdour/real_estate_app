@@ -16,10 +16,10 @@ type AdminReservation = {
 
 const statusColors: Record<string, string> = {
   HOLD_PENDING_PAYMENT: "bg-amber-50 text-amber-800",
-  CONFIRMED: "bg-brand-100 text-brand-700",
-  CANCELLED: "bg-brand-50 text-brand-700/70",
-  EXPIRED: "bg-brand-50 text-brand-700/70",
-  COMPLETED: "bg-brand-100 text-brand-700",
+  CONFIRMED: "bg-brand-100 text-brand-700 dark:text-honey-white",
+  CANCELLED: "bg-brand-50 text-brand-700/70 dark:text-honey-white/70",
+  EXPIRED: "bg-brand-50 text-brand-700/70 dark:text-honey-white/70",
+  COMPLETED: "bg-brand-100 text-brand-700 dark:text-honey-white",
 };
 
 const ACTIONS: Record<string, { label: string; next: string }[]> = {
@@ -67,14 +67,14 @@ export function AdminReservationsTable() {
     }
   }
 
-  if (!reservations) return <div className="flex items-center gap-2 text-brand-700"><Spinner className="h-4 w-4" />Loading…</div>;
+  if (!reservations) return <div className="flex items-center gap-2 text-brand-700 dark:text-honey-white"><Spinner className="h-4 w-4" />Loading…</div>;
 
   return (
     <div>
       {error && <p className="field-error mb-4">{error}</p>}
       <div className="card overflow-x-auto">
         <table className="w-full text-start text-sm">
-          <thead className="border-b border-brand-200 text-xs text-brand-700">
+          <thead className="border-b border-brand-200 text-xs text-brand-700 dark:text-honey-white">
             <tr>
               <th className="p-3">Property</th>
               <th className="p-3">Buyer</th>
@@ -90,9 +90,9 @@ export function AdminReservationsTable() {
                     {r.property.title}
                   </Link>
                 </td>
-                <td className="p-3 text-brand-700">{r.buyer.email}</td>
+                <td className="p-3 text-brand-700 dark:text-honey-white">{r.buyer.email}</td>
                 <td className="p-3">
-                  <span className={`rounded-full px-3 py-1 text-xs ${statusColors[r.status] ?? "bg-brand-50 text-brand-700"}`}>
+                  <span className={`rounded-full px-3 py-1 text-xs ${statusColors[r.status] ?? "bg-brand-50 text-brand-700 dark:text-honey-white"}`}>
                     {r.status.replace(/_/g, " ")}
                   </span>
                 </td>
@@ -103,7 +103,7 @@ export function AdminReservationsTable() {
                         key={a.next}
                         onClick={() => setStatus(r.id, a.next)}
                         disabled={busyId === r.id}
-                        className="text-xs text-brand-700 underline hover:text-brand-900 dark:text-cream disabled:opacity-50"
+                        className="text-xs text-brand-700 dark:text-honey-white underline hover:text-brand-900 dark:text-cream disabled:opacity-50"
                       >
                         {a.label}
                       </button>

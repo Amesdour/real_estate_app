@@ -135,12 +135,12 @@ export function ListPropertyForm() {
   if (submitted) {
     return (
       <div className="card flex items-start gap-3 p-6">
-        <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+        <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700 dark:text-honey-white">
           ✓
         </div>
         <div>
           <p className="font-medium text-brand-900 dark:text-cream">Listing submitted</p>
-          <p className="mt-1 text-sm text-brand-700">
+          <p className="mt-1 text-sm text-brand-700 dark:text-honey-white">
             It's saved as <strong>pending approval</strong> — an admin needs to publish it before it shows
             up in the public listings.
           </p>
@@ -319,7 +319,7 @@ export function ListPropertyForm() {
             />
           </div>
         </div>
-        <p className="text-xs text-brand-700/70">
+        <p className="text-xs text-brand-700/70 dark:text-honey-white/70">
           Tip: right-click the spot on Google Maps and copy the two numbers it shows — the first is
           latitude, the second is longitude.
         </p>
@@ -327,7 +327,7 @@ export function ListPropertyForm() {
 
       <div className="form-section">
         <p className="form-section-title">Photos</p>
-        <label className="flex cursor-pointer items-center justify-center rounded-xl border border-dashed border-brand-300 px-3 py-6 text-sm text-brand-700 transition-colors hover:border-brand-500 hover:bg-brand-50">
+        <label className="flex cursor-pointer items-center justify-center rounded-xl border border-dashed border-brand-300 px-3 py-6 text-sm text-brand-700 dark:text-honey-white transition-colors hover:border-brand-500 hover:bg-brand-50">
           <span>Tap to add photos</span>
           <input
             type="file"
@@ -344,7 +344,7 @@ export function ListPropertyForm() {
             {images.map((img) => (
               <div key={img.url || img.name} className="relative aspect-square overflow-hidden rounded-lg bg-brand-100">
                 {img.uploading ? (
-                  <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 text-xs text-brand-700">
+                  <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 text-xs text-brand-700 dark:text-honey-white">
                     <Spinner className="h-4 w-4 text-brand-500" />
                     Uploading…
                   </div>

@@ -161,7 +161,7 @@ export function AdminEditListingForm({ propertyId }: { propertyId: string }) {
 
   if (loading) {
     return (
-      <div className="flex items-center gap-2 text-brand-700">
+      <div className="flex items-center gap-2 text-brand-700 dark:text-honey-white">
         <Spinner className="h-4 w-4" />
         Loading…
       </div>
@@ -366,7 +366,7 @@ export function AdminEditListingForm({ propertyId }: { propertyId: string }) {
 
       <div className="form-section">
         <p className="form-section-title">Photos</p>
-        <label className="flex cursor-pointer items-center justify-center rounded-xl border border-dashed border-brand-300 px-3 py-6 text-sm text-brand-700 transition-colors hover:border-brand-500 hover:bg-brand-50">
+        <label className="flex cursor-pointer items-center justify-center rounded-xl border border-dashed border-brand-300 px-3 py-6 text-sm text-brand-700 dark:text-honey-white transition-colors hover:border-brand-500 hover:bg-brand-50">
           <span>Tap to add photos</span>
           <input type="file" accept="image/*" multiple className="hidden" onChange={handleFilesSelected} />
         </label>
@@ -375,7 +375,7 @@ export function AdminEditListingForm({ propertyId }: { propertyId: string }) {
             {images.map((img) => (
               <div key={img.url || img.name} className="relative aspect-square overflow-hidden rounded-lg bg-brand-100">
                 {img.uploading ? (
-                  <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 text-xs text-brand-700">
+                  <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 text-xs text-brand-700 dark:text-honey-white">
                     <Spinner className="h-4 w-4 text-brand-500" />
                     Uploading…
                   </div>
@@ -412,7 +412,7 @@ export function AdminEditListingForm({ propertyId }: { propertyId: string }) {
           Save changes
         </button>
         {saved && (
-          <span className="flex items-center gap-1.5 text-sm text-brand-700">
+          <span className="flex items-center gap-1.5 text-sm text-brand-700 dark:text-honey-white">
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-brand-100 text-xs">✓</span>
             Saved
           </span>
