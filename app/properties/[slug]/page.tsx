@@ -30,14 +30,28 @@ export default async function PropertyPage({ params }: { params: { slug: string 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-brand-100 dark:bg-brand-800">
-            {primaryImage && <Image src={primaryImage} alt={property.title} fill className="object-cover" />}
+            {primaryImage && (
+              <Image
+                src={primaryImage}
+                alt={property.title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 66vw"
+                className="object-cover"
+              />
+            )}
           </div>
 
           {property.images.length > 1 && (
             <div className="mt-3 grid grid-cols-4 gap-3 sm:grid-cols-6">
               {property.images.map((img) => (
                 <div key={img.id} className="relative aspect-square overflow-hidden rounded-lg bg-brand-100 dark:bg-brand-800">
-                  <Image src={img.url} alt="" fill className="object-cover" />
+                  <Image
+                    src={img.url}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 25vw, (max-width: 1024px) 16vw, 11vw"
+                    className="object-cover"
+                  />
                 </div>
               ))}
             </div>
