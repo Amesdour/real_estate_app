@@ -101,7 +101,7 @@ export function AdminListingsTable() {
                     value={p.status}
                     disabled={busyId === p.id}
                     onChange={(e) => setStatus(p.id, e.target.value)}
-                    className="rounded-lg border border-brand-200 px-2 py-1 text-xs"
+                    className="field !w-auto !py-1 !text-xs"
                   >
                     {STATUSES.map((s) => (
                       <option key={s} value={s}>

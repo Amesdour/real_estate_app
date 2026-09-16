@@ -72,7 +72,7 @@ export function AdminUsersTable({ currentUserId }: { currentUserId: string }) {
                     value={u.role}
                     disabled={busyId === u.id || u.id === currentUserId}
                     onChange={(e) => setRole(u.id, e.target.value)}
-                    className="rounded-lg border border-brand-200 px-2 py-1 text-xs disabled:opacity-50"
+                    className="field !w-auto !py-1 !text-xs disabled:opacity-50"
                     title={u.id === currentUserId ? "You can't change your own role" : undefined}
                   >
                     {ROLES.map((r) => (
