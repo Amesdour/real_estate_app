@@ -42,7 +42,16 @@ export const propertyCreateSchema = z.object({
   areaSqm: z.number().int().positive().nullable().optional(),
   amenities: z.array(z.enum(AMENITIES)).default([]),
   attributes: z.record(z.any()).default({}),
-  images: z.array(z.string().url()).default([]),
+  // Our own /api/upload endpoint returns a relative path like
+  // "/uploads/abc123.jpg", which z.string().url() actually REJECTS —
+  // it requires an absolute URL (new URL() throws on a bare relative
+  // path). That meant every property submission/edit that included an
+  // uploaded image failed validation. Accept either an absolute
+  // http(s) URL (for a future S3/R2 migration) or a same-origin
+  // relative path starting with "/".
+  images: z
+    .array(z.string().refine((v) => v.startsWith("/") || /^https?:\/\//.test(v), { message: "Invalid image URL" }))
+    .default([]),
 });
 
 /** Same shape, but every field optional — used for admin edits (partial update). */
