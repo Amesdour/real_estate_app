@@ -42,7 +42,7 @@ export function PropertyCard({ slug, title, city, country, price, type, listingK
         {/* start-3/end-3 (logical) instead of left-3/right-3 so these badges
             swap sides automatically under dir="rtl" instead of both sitting
             on the visual left in Arabic. */}
-        <span className="absolute start-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-brand-700 dark:text-honey-white backdrop-blur-sm">
+        <span className="absolute start-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-brand-900 backdrop-blur-sm">
           {typeLabels[type] ?? type}
         </span>
         {listingKind && (
