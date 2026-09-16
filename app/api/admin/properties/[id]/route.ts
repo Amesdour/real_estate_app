@@ -1,20 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { requireRole, AuthError } from "@/lib/auth";
+import { propertyUpdateSchema } from "@/lib/validation";
 
-const statusSchema = z.object({
-  status: z.enum([
-    "DRAFT",
-    "PENDING_APPROVAL",
-    "AVAILABLE",
-    "RESERVED",
-    "SOLD",
-    "RENTED",
-  ]),
-});
-
-/** Loads a single listing's full data for the admin edit form. */
+/** Fetch a single property (any status) for the admin edit form. */
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   try {
     await requireRole("SUPER_ADMIN");
@@ -26,31 +15,50 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     if (!property) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
-
     return NextResponse.json({ property });
   } catch (err) {
     if (err instanceof AuthError) {
       return NextResponse.json({ error: err.message }, { status: err.status });
     }
-    console.error(err);
-    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+    throw err;
   }
 }
 
-/** Approve, reject (send back to DRAFT), or otherwise change a listing's status. */
+/**
+ * Full edit for a listing: any field can be updated, including its status
+ * (approve/reject/archive) and — if `images` is included in the body — a
+ * full replacement of its photo gallery.
+ */
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     await requireRole("SUPER_ADMIN");
 
     const json = await req.json().catch(() => null);
-    const parsed = statusSchema.safeParse(json);
+    const parsed = propertyUpdateSchema.safeParse(json);
     if (!parsed.success) {
-      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid input", details: parsed.error.flatten() },
+        { status: 400 }
+      );
     }
 
-    const property = await prisma.property.update({
-      where: { id: params.id },
-      data: { status: parsed.data.status },
+    const { images, expiresAt, ...rest } = parsed.data;
+
+    const property = await prisma.$transaction(async (tx) => {
+      if (images) {
+        await tx.propertyImage.deleteMany({ where: { propertyId: params.id } });
+      }
+      return tx.property.update({
+        where: { id: params.id },
+        data: {
+          ...rest,
+          ...(expiresAt !== undefined ? { expiresAt: expiresAt ? new Date(expiresAt) : null } : {}),
+          ...(images
+            ? { images: { create: images.map((url, i) => ({ url, isPrimary: i === 0 })) } }
+            : {}),
+        },
+        include: { images: true },
+      });
     });
 
     return NextResponse.json({ property });
