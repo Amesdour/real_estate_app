@@ -135,7 +135,7 @@ export function ListPropertyForm() {
   if (submitted) {
     return (
       <div className="card flex items-start gap-3 p-6">
-        <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700 dark:text-honey-white">
+        <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-honey-white">
           ✓
         </div>
         <div>
@@ -327,7 +327,7 @@ export function ListPropertyForm() {
 
       <div className="form-section">
         <p className="form-section-title">Photos</p>
-        <label className="flex cursor-pointer items-center justify-center rounded-xl border border-dashed border-brand-300 px-3 py-6 text-sm text-brand-700 dark:text-honey-white transition-colors hover:border-brand-500 hover:bg-brand-50">
+        <label className="flex cursor-pointer items-center justify-center rounded-xl border border-dashed border-brand-300 px-3 py-6 text-sm text-brand-700 dark:text-honey-white transition-colors hover:border-brand-500 hover:bg-brand-50 dark:hover:bg-brand-800">
           <span>Tap to add photos</span>
           <input
             type="file"
@@ -342,7 +342,7 @@ export function ListPropertyForm() {
         {images.length > 0 && (
           <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
             {images.map((img) => (
-              <div key={img.url || img.name} className="relative aspect-square overflow-hidden rounded-lg bg-brand-100">
+              <div key={img.url || img.name} className="relative aspect-square overflow-hidden rounded-lg bg-brand-100 dark:bg-brand-800">
                 {img.uploading ? (
                   <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 text-xs text-brand-700 dark:text-honey-white">
                     <Spinner className="h-4 w-4 text-brand-500" />

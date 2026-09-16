@@ -27,7 +27,7 @@ export function ReservationActions({ id, status }: { id: string; status: string 
 
   return (
     <div className="mt-3">
-      {error && <p className="mb-2 text-xs text-red-600">{error}</p>}
+      {error && <p className="mb-2 text-xs text-red-600 dark:text-red-400">{error}</p>}
       <div className="flex gap-3">
         <button
           onClick={() => act("confirm")}
@@ -39,7 +39,7 @@ export function ReservationActions({ id, status }: { id: string; status: string 
         <button
           onClick={() => act("cancel")}
           disabled={loading}
-          className="rounded-full border border-brand-200 px-4 py-1.5 text-xs text-brand-700 dark:text-honey-white hover:bg-brand-50 disabled:opacity-50"
+          className="rounded-full border border-brand-200 px-4 py-1.5 text-xs text-brand-700 dark:text-honey-white hover:bg-brand-50 dark:hover:bg-brand-800 disabled:opacity-50"
         >
           Cancel hold
         </button>

@@ -13,13 +13,13 @@ type MyProperty = {
 };
 
 const statusColors: Record<string, string> = {
-  DRAFT: "bg-brand-50 text-brand-700 dark:text-honey-white",
+  DRAFT: "bg-brand-50 dark:bg-brand-800 text-brand-700 dark:text-honey-white",
   PENDING_APPROVAL: "bg-amber-50 text-amber-800",
-  AVAILABLE: "bg-brand-100 text-brand-700 dark:text-honey-white",
+  AVAILABLE: "bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-honey-white",
   RESERVED: "bg-amber-50 text-amber-800",
-  SOLD: "bg-brand-100 text-brand-700 dark:text-honey-white",
-  RENTED: "bg-brand-100 text-brand-700 dark:text-honey-white",
-  EXPIRED: "bg-brand-50 text-brand-700/70 dark:text-honey-white/70",
+  SOLD: "bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-honey-white",
+  RENTED: "bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-honey-white",
+  EXPIRED: "bg-brand-50 dark:bg-brand-800 text-brand-700/70 dark:text-honey-white/70",
 };
 
 export function MyListingsTable() {
@@ -66,7 +66,7 @@ export function MyListingsTable() {
                 {p._count.conversations} message{p._count.conversations !== 1 && "s"}
               </p>
             </div>
-            <span className={`pill ${statusColors[p.status] ?? "bg-brand-50 text-brand-700 dark:text-honey-white"}`}>
+            <span className={`pill ${statusColors[p.status] ?? "bg-brand-50 dark:bg-brand-800 text-brand-700 dark:text-honey-white"}`}>
               {p.status.replace(/_/g, " ")}
             </span>
           </div>

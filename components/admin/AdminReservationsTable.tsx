@@ -16,10 +16,10 @@ type AdminReservation = {
 
 const statusColors: Record<string, string> = {
   HOLD_PENDING_PAYMENT: "bg-amber-50 text-amber-800",
-  CONFIRMED: "bg-brand-100 text-brand-700 dark:text-honey-white",
-  CANCELLED: "bg-brand-50 text-brand-700/70 dark:text-honey-white/70",
-  EXPIRED: "bg-brand-50 text-brand-700/70 dark:text-honey-white/70",
-  COMPLETED: "bg-brand-100 text-brand-700 dark:text-honey-white",
+  CONFIRMED: "bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-honey-white",
+  CANCELLED: "bg-brand-50 dark:bg-brand-800 text-brand-700/70 dark:text-honey-white/70",
+  EXPIRED: "bg-brand-50 dark:bg-brand-800 text-brand-700/70 dark:text-honey-white/70",
+  COMPLETED: "bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-honey-white",
 };
 
 const ACTIONS: Record<string, { label: string; next: string }[]> = {
@@ -92,7 +92,7 @@ export function AdminReservationsTable() {
                 </td>
                 <td className="p-3 text-brand-700 dark:text-honey-white">{r.buyer.email}</td>
                 <td className="p-3">
-                  <span className={`rounded-full px-3 py-1 text-xs ${statusColors[r.status] ?? "bg-brand-50 text-brand-700 dark:text-honey-white"}`}>
+                  <span className={`rounded-full px-3 py-1 text-xs ${statusColors[r.status] ?? "bg-brand-50 dark:bg-brand-800 text-brand-700 dark:text-honey-white"}`}>
                     {r.status.replace(/_/g, " ")}
                   </span>
                 </td>

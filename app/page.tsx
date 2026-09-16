@@ -50,11 +50,11 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
       </div>
 
       {properties.length === 0 ? (
-        <div className="mt-8 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700 dark:text-honey-white dark:border-brand-700 dark:text-honey-white">
+        <div className="mt-8 rounded-2xl border border-dashed border-brand-200 p-12 text-center text-brand-700 dark:text-honey-white dark:border-brand-700">
           {hasFilters ? (
             t.empty
           ) : (
-            <>No properties are listed yet. Run <code className="rounded bg-brand-100 px-1.5 py-0.5 dark:bg-brand-800">npm run seed</code> to add some demo listings, or sign in as an agent to list one.</>
+            <>No properties are listed yet. Run <code className="rounded bg-brand-100 dark:bg-brand-800 px-1.5 py-0.5">npm run seed</code> to add some demo listings, or sign in as an agent to list one.</>
           )}
         </div>
       ) : (

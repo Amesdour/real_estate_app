@@ -38,7 +38,7 @@ export default async function MyListingsMessagesPage() {
                     <p className="font-display text-base text-brand-900 dark:text-cream">{c.property?.title}</p>
                     <p className="text-xs text-brand-700 dark:text-honey-white">{c.buyer.email}</p>
                   </div>
-                  <span className={`pill ${c.status === "OPEN" ? "bg-brand-100 text-brand-700 dark:text-honey-white" : "bg-brand-50 text-brand-700/70 dark:text-honey-white/70"}`}>
+                  <span className={`pill ${c.status === "OPEN" ? "bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-honey-white" : "bg-brand-50 dark:bg-brand-800 text-brand-700/70 dark:text-honey-white/70"}`}>
                     {c.status === "OPEN" ? "Open" : "Closed"}
                   </span>
                 </div>

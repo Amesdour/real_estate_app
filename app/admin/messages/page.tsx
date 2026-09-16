@@ -45,7 +45,7 @@ export default async function AdminMessagesPage() {
                   </div>
                   <span
                     className={`rounded-full px-3 py-1 text-xs ${
-                      c.status === "OPEN" ? "bg-brand-100 text-brand-700 dark:text-honey-white" : "bg-brand-50 text-brand-700/70 dark:text-honey-white/70"
+                      c.status === "OPEN" ? "bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-honey-white" : "bg-brand-50 dark:bg-brand-800 text-brand-700/70 dark:text-honey-white/70"
                     }`}
                   >
                     {c.status === "OPEN" ? "Open" : "Closed"}

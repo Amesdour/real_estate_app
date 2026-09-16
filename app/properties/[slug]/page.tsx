@@ -29,14 +29,14 @@ export default async function PropertyPage({ params }: { params: { slug: string 
     <div className="mx-auto max-w-5xl px-6 py-12">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-brand-100">
+          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-brand-100 dark:bg-brand-800">
             {primaryImage && <Image src={primaryImage} alt={property.title} fill className="object-cover" />}
           </div>
 
           {property.images.length > 1 && (
             <div className="mt-3 grid grid-cols-4 gap-3 sm:grid-cols-6">
               {property.images.map((img) => (
-                <div key={img.id} className="relative aspect-square overflow-hidden rounded-lg bg-brand-100">
+                <div key={img.id} className="relative aspect-square overflow-hidden rounded-lg bg-brand-100 dark:bg-brand-800">
                   <Image src={img.url} alt="" fill className="object-cover" />
                 </div>
               ))}
@@ -47,20 +47,20 @@ export default async function PropertyPage({ params }: { params: { slug: string 
           <p className="mt-1 text-brand-700 dark:text-honey-white">
             {property.address}, {property.city}, {property.country}
           </p>
-          <p className="mt-6 whitespace-pre-line text-brand-900/90">{property.description}</p>
+          <p className="mt-6 whitespace-pre-line text-brand-900/90 dark:text-cream/90">{property.description}</p>
 
           <div className="mt-3 flex flex-wrap gap-2 text-xs">
-            <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700 dark:text-honey-white">
+            <span className="rounded-full bg-brand-100 dark:bg-brand-800 px-3 py-1 text-brand-700 dark:text-honey-white">
               {property.listingKind === "RENT" ? "For rent" : "For sale"}
             </span>
             {property.bedrooms != null && (
-              <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700 dark:text-honey-white">{property.bedrooms} bedrooms</span>
+              <span className="rounded-full bg-brand-100 dark:bg-brand-800 px-3 py-1 text-brand-700 dark:text-honey-white">{property.bedrooms} bedrooms</span>
             )}
             {property.bathrooms != null && (
-              <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700 dark:text-honey-white">{property.bathrooms} bathrooms</span>
+              <span className="rounded-full bg-brand-100 dark:bg-brand-800 px-3 py-1 text-brand-700 dark:text-honey-white">{property.bathrooms} bathrooms</span>
             )}
             {property.areaSqm != null && (
-              <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-700 dark:text-honey-white">{property.areaSqm} m²</span>
+              <span className="rounded-full bg-brand-100 dark:bg-brand-800 px-3 py-1 text-brand-700 dark:text-honey-white">{property.areaSqm} m²</span>
             )}
           </div>
 

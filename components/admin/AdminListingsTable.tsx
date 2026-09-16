@@ -119,7 +119,7 @@ export function AdminListingsTable() {
                     <button
                       onClick={() => remove(p.id)}
                       disabled={busyId === p.id}
-                      className="text-xs text-red-600 hover:underline disabled:opacity-50"
+                      className="text-xs text-red-600 dark:text-red-400 hover:underline disabled:opacity-50"
                     >
                       Delete
                     </button>

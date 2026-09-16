@@ -17,10 +17,10 @@ const statusLabels: Record<string, string> = {
 
 const statusColors: Record<string, string> = {
   HOLD_PENDING_PAYMENT: "bg-amber-50 text-amber-800",
-  CONFIRMED: "bg-brand-100 text-brand-700 dark:text-honey-white",
-  CANCELLED: "bg-brand-50 text-brand-700 dark:text-honey-white",
-  EXPIRED: "bg-brand-50 text-brand-700 dark:text-honey-white",
-  COMPLETED: "bg-brand-100 text-brand-700 dark:text-honey-white",
+  CONFIRMED: "bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-honey-white",
+  CANCELLED: "bg-brand-50 dark:bg-brand-800 text-brand-700 dark:text-honey-white",
+  EXPIRED: "bg-brand-50 dark:bg-brand-800 text-brand-700 dark:text-honey-white",
+  COMPLETED: "bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-honey-white",
 };
 
 export default async function DashboardPage() {
@@ -60,7 +60,7 @@ export default async function DashboardPage() {
                     {r.property.city}, {r.property.country}
                   </p>
                 </div>
-                <span className={`rounded-full px-3 py-1 text-xs ${statusColors[r.status] ?? "bg-brand-50 text-brand-700 dark:text-honey-white"}`}>
+                <span className={`rounded-full px-3 py-1 text-xs ${statusColors[r.status] ?? "bg-brand-50 dark:bg-brand-800 text-brand-700 dark:text-honey-white"}`}>
                   {statusLabels[r.status] ?? r.status}
                 </span>
               </div>

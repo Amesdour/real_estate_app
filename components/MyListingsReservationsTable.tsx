@@ -14,10 +14,10 @@ type MyReservation = {
 
 const statusColors: Record<string, string> = {
   HOLD_PENDING_PAYMENT: "bg-amber-50 text-amber-800",
-  CONFIRMED: "bg-brand-100 text-brand-700 dark:text-honey-white",
-  CANCELLED: "bg-brand-50 text-brand-700/70 dark:text-honey-white/70",
-  EXPIRED: "bg-brand-50 text-brand-700/70 dark:text-honey-white/70",
-  COMPLETED: "bg-brand-100 text-brand-700 dark:text-honey-white",
+  CONFIRMED: "bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-honey-white",
+  CANCELLED: "bg-brand-50 dark:bg-brand-800 text-brand-700/70 dark:text-honey-white/70",
+  EXPIRED: "bg-brand-50 dark:bg-brand-800 text-brand-700/70 dark:text-honey-white/70",
+  COMPLETED: "bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-honey-white",
 };
 
 export function MyListingsReservationsTable() {
@@ -49,7 +49,7 @@ export function MyListingsReservationsTable() {
   return (
     <div className="card overflow-x-auto">
       <table className="w-full text-start text-sm">
-        <thead className="border-b border-brand-200 text-xs text-brand-700 dark:text-honey-white dark:border-brand-800 dark:text-honey-white">
+        <thead className="border-b border-brand-200 text-xs text-brand-700 dark:text-honey-white dark:border-brand-800">
           <tr>
             <th className="p-3">Property</th>
             <th className="p-3">Buyer</th>
@@ -66,7 +66,7 @@ export function MyListingsReservationsTable() {
               </td>
               <td className="p-3 text-brand-700 dark:text-honey-white">{r.buyer.email}</td>
               <td className="p-3">
-                <span className={`pill ${statusColors[r.status] ?? "bg-brand-50 text-brand-700 dark:text-honey-white"}`}>
+                <span className={`pill ${statusColors[r.status] ?? "bg-brand-50 dark:bg-brand-800 text-brand-700 dark:text-honey-white"}`}>
                   {r.status.replace(/_/g, " ")}
                 </span>
               </td>
