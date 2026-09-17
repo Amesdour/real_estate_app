@@ -65,3 +65,12 @@ export const propertyUpdateSchema = propertyCreateSchema.partial().extend({
 export const reservationCreateSchema = z.object({
   propertyId: z.string().uuid(),
 });
+
+export const conversationCreateSchema = z.object({
+  propertyId: z.string().uuid().optional(),
+  body: z.string().min(1).max(4000),
+});
+
+export const messageCreateSchema = z.object({
+  body: z.string().min(1).max(4000),
+});
